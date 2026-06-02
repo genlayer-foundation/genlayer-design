@@ -3,32 +3,84 @@
 A portable, drop-in visual system for building branded **GenLayer** interfaces, prototypes,
 mocks, and slides — the adjudication layer for the agentic economy.
 
-## Start here → [`DESIGN.md`](./DESIGN.md)
+---
 
-`DESIGN.md` is the single entry point. It documents every design token, the brand voice,
-layout patterns, theming, and a download manifest so an AI agent or developer can pull exactly
-the files they need — fonts, CSS, logos, icons, UI kits — on demand.
+## Use this in your project
 
-### Wire it up
+Pick whichever fits how you work. **The skill is the simplest path for any Claude-Code-
+assisted project** — install it once and it applies everywhere.
+
+### Option A — Install the Claude Code skill (recommended)
+
+The repo ships a [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills)
+at [`.claude/skills/genlayer-design.md`](./.claude/skills/genlayer-design.md). Install it
+once at the user level — it auto-applies whenever you ask Claude to design, build, or
+review UI in **any project** on your machine. No per-project `CLAUDE.md` edit, no copy-
+paste, no maintenance.
+
+```bash
+# one-time install — run on any machine where you use Claude Code
+mkdir -p ~/.claude/skills
+curl -fsSL https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/.claude/skills/genlayer-design.md \
+  -o ~/.claude/skills/genlayer-design.md
+```
+
+That's it. From now on, just describe the work — *"design a hackathon landing page
+following the GenLayer design system"*, *"build a leaderboard table for the Portal"*,
+*"review this React component for brand fit"* — and Claude will pick up the
+`genlayer-design` skill, fetch `DESIGN.md`, and apply tokens, `gl-*` components, theming,
+brand voice, and asset rules automatically.
+
+To update later, re-run the same `curl` command. To uninstall, delete
+`~/.claude/skills/genlayer-design.md`.
+
+### Option B — Paste a snippet into the project's CLAUDE.md / AGENTS.md
+
+If you'd rather not install the skill globally (e.g. you share the project with people
+who use a different AI tool, or you want the design-system reference checked into the
+repo itself), paste this into the project's `CLAUDE.md` / `AGENTS.md`:
+
+```md
+## Visual design
+
+This project follows the GenLayer Design System.
+
+- **Read first:** https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/DESIGN.md
+- **Live reference pages:** https://github.com/genlayer-foundation/genlayer-design
+  (open `components.html`, `dashboard.html`, `assets.html`, `about.html`, `slides.html`
+  in a browser to see every token, component, and pattern in dark and light).
+- **Wire-up:** link `colors_and_type.css`, `components.css`, `theme.css`, and load
+  `theme.js` before `</body>` (see DESIGN.md §2). Build everything from `var(--*)`
+  tokens and `gl-*` component classes — never hard-code a hex or px that has a token.
+```
+
+### Option C — Wire the stylesheets directly (no AI involved)
+
+If you're hand-building UI and just want the tokens + components in your page, link the
+three stylesheets and load the theme script:
 
 ```html
-<link rel="stylesheet" href="colors_and_type.css"><!-- tokens + fonts -->
-<link rel="stylesheet" href="components.css">     <!-- gl-* components -->
-<link rel="stylesheet" href="theme.css">          <!-- shared chrome + dark/light -->
+<link rel="stylesheet" href="https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/colors_and_type.css">
+<link rel="stylesheet" href="https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/components.css">
+<link rel="stylesheet" href="https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/theme.css">
 <script>(function(){var t=localStorage.getItem('gl-theme')||'dark';
   document.documentElement.classList.toggle('on-dark',t==='dark');})()</script>
 …
-<script src="theme.js"></script>                  <!-- before </body>: wires the toggle -->
+<script src="https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/theme.js"></script>
 ```
 
-That loads the brand fonts, defines every CSS variable (`--gl-blue`, `--font-display`,
-`--space-6`, `--radius-xl`, …), gives you ready-made component classes (`gl-btn`, `gl-card`,
-`gl-table`, badges, fields, charts), and adds a **dark/light theme toggle** that persists across
-pages. Everything is keyed to surface tokens, so one switch flips the whole page.
+For production sites, **vendor those files into your project** — don't hot-link to
+`raw.githubusercontent.com` on a live deployment (it's not a CDN, no caching guarantees).
+For prototypes, mocks, and internal tools, hot-linking is fine.
+
+---
 
 ## What's in here
 
-Six reference pages — one consistent set, same nav, same chrome, all dark/light themeable:
+`DESIGN.md` is the single source of truth — every design token, the brand voice, layout
+patterns, theming, and a download manifest. Read that first if you want the full picture.
+
+Five reference pages — one consistent set, same nav, same chrome, all dark/light themeable:
 
 | # | Page | What it is |
 | --- | --- | --- |
@@ -39,11 +91,12 @@ Six reference pages — one consistent set, same nav, same chrome, all dark/ligh
 | 5 | **[`about.html`](./about.html)** | Text-only editorial page |
 
 Every page carries the same nav (**Components · Dashboard · Slides · Assets · About**)
-and a theme toggle, so you can browse and theme the whole system from any one. `DESIGN.md` §10
-documents every component class; §11 covers theming and the shared chrome.
+and a theme toggle, so you can browse and theme the whole system from any one. `DESIGN.md`
+§10 documents every component class; §11 covers theming and the shared chrome.
 
 ```
-DESIGN.md                        ← read this first
+DESIGN.md                        ← single source of truth
+.claude/skills/genlayer-design.md ← Claude Code skill (Option A above)
 colors_and_type.css              ← all tokens + @font-face + base styles
 components.css                   ← reusable, theme-aware gl-* component classes
 theme.css                        ← shared chrome (nav/hero/sections) + dark/light tokens
@@ -61,59 +114,10 @@ ui_kits/portal/Dashboard.html    ← full Portal app shell to fork
 ui_kits/marketing/HackathonPage.html  ← full dark marketing page to fork
 guidelines/brand_voice.md        ← condensed copy & casing rules
 guidelines/brand_guidelines_text.md   ← full brand guidelines extract
-LICENSE-FONTS.md                 ← font licensing note (read before forking public)
+LICENSE-FONTS.md                 ← font licensing (Space Grotesk public, F37 Lineca internal)
 ```
 
-## Using it as a remote reference
-
-Point any project's agent at the raw `DESIGN.md` URL — that's the single entry point:
-
-```
-https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/DESIGN.md
-```
-
-The agent will read all tokens inline (so it can produce on-brand work without fetching
-anything else) and only download individual files — Switzer, SVG logos/icons, the UI kits
-— when it needs to actually render them. §1 of `DESIGN.md` is the full download manifest
-with `{RAW_BASE}/...` URLs.
-
-### Option A — install the Claude Code skill (recommended for AI-assisted work)
-
-The repo ships a [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills)
-at [`.claude/skills/genlayer-design.md`](./.claude/skills/genlayer-design.md). Install it
-once at the user level and it auto-applies whenever you ask Claude to design or build UI
-in any project on your machine:
-
-```bash
-# one-time install (any machine)
-mkdir -p ~/.claude/skills
-curl -fsSL https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/.claude/skills/genlayer-design.md \
-  -o ~/.claude/skills/genlayer-design.md
-```
-
-After that, just say things like *"design a hackathon landing page following the GenLayer
-design system"* or *"review this React component for brand fit"* — Claude will pick up
-the `genlayer-design` skill, fetch `DESIGN.md`, and apply tokens, components, and voice
-rules automatically. No per-project setup.
-
-### Option B — paste a snippet into the project's CLAUDE.md / AGENTS.md
-
-If you don't want the skill installed globally (or you're sharing the project with people
-who don't use Claude Code), paste this into the project's `CLAUDE.md` / `AGENTS.md`:
-
-```md
-## Visual design
-
-This project follows the GenLayer Design System.
-
-- **Read first:** https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/DESIGN.md
-- **Live reference pages:** https://github.com/genlayer-foundation/genlayer-design
-  (open `components.html`, `dashboard.html`, `assets.html`, `about.html`, `slides.html`
-  in a browser to see every token, component, and pattern in dark and light).
-- **Wire-up:** link `colors_and_type.css`, `components.css`, `theme.css`, and load
-  `theme.js` before `</body>` (see DESIGN.md §2). Build everything from `var(--*)`
-  tokens and `gl-*` component classes — never hard-code a hex or px that has a token.
-```
+---
 
 ## License
 
