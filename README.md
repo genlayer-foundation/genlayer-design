@@ -77,7 +77,29 @@ anything else) and only download individual files — Switzer, SVG logos/icons, 
 — when it needs to actually render them. §1 of `DESIGN.md` is the full download manifest
 with `{RAW_BASE}/...` URLs.
 
-### Drop-in snippet for a project's CLAUDE.md / AGENTS.md
+### Option A — install the Claude Code skill (recommended for AI-assisted work)
+
+The repo ships a [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills)
+at [`.claude/skills/genlayer-design.md`](./.claude/skills/genlayer-design.md). Install it
+once at the user level and it auto-applies whenever you ask Claude to design or build UI
+in any project on your machine:
+
+```bash
+# one-time install (any machine)
+mkdir -p ~/.claude/skills
+curl -fsSL https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/.claude/skills/genlayer-design.md \
+  -o ~/.claude/skills/genlayer-design.md
+```
+
+After that, just say things like *"design a hackathon landing page following the GenLayer
+design system"* or *"review this React component for brand fit"* — Claude will pick up
+the `genlayer-design` skill, fetch `DESIGN.md`, and apply tokens, components, and voice
+rules automatically. No per-project setup.
+
+### Option B — paste a snippet into the project's CLAUDE.md / AGENTS.md
+
+If you don't want the skill installed globally (or you're sharing the project with people
+who don't use Claude Code), paste this into the project's `CLAUDE.md` / `AGENTS.md`:
 
 ```md
 ## Visual design
