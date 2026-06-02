@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenLayer · Starter</title>
+<!-- 1) tokens + fonts   2) components   3) theme + nav/chrome -->
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="theme.css">
+<script>(function(){var t=localStorage.getItem('gl-theme')||'dark';document.documentElement.classList.toggle('on-dark',t==='dark');})();</script>
+<style>
+  .wrap { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: var(--space-6); }
+
+  .bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-20); }
+  .bar img { height: 20px; filter: invert(var(--c-logo-invert)); }
+  .bar nav { display: flex; gap: var(--space-6); align-items: center; }
+  .bar nav a.link { color: var(--c-fg-muted); font-size: var(--fs-sm); }
+  .bar nav a.link:hover { color: var(--c-fg); text-decoration: none; }
+
+  .hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 8vw, 104px); letter-spacing: -0.06em; line-height: .92; margin: var(--space-5) 0; max-width: 16ch; color: var(--c-fg); }
+  .hero .grad { background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 500; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-right: .12em; margin-right: -.08em; }
+  .hero p.lede { font-size: var(--fs-body-lg); color: var(--c-fg-muted); max-width: 52ch; margin: 0 0 var(--space-8); line-height: 1.5; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); margin-top: var(--space-16); }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="gl-page">
+  <div class="gl-page__bloom gl-page__bloom--1"></div>
+  <div class="gl-page__bloom gl-page__bloom--2"></div>
+  <div class="wrap">
+    <header class="bar">
+      <img src="assets/GenLayer_Logo_Black.svg" alt="GenLayer">
+      <nav>
+        <a class="link" href="components.html">Components</a>
+        <a class="link" href="dashboard.html">Dashboard</a>
+        <a class="link" href="about.html">About</a>
+        <button class="gl-theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.38 2.02A10 10 0 1022 12.5 8 8 0 0111.38 2.02z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"></path></svg>
+        </button>
+        <a class="gl-btn gl-btn--primary gl-btn--sm" href="slides.html">View slides →</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <span class="gl-eyebrow"><span class="gl-dot"></span>Testnet Bradbury</span>
+      <h1>A world where trust is <span class="grad">autonomous and universal</span></h1>
+      <p class="lede">Intelligent Contracts written in natural language and code become self-interpreting,
+         self-executing, and self-enforcing — validated by a diverse network of AI arbiters.</p>
+      <div class="gl-tabs" style="border:0; gap:var(--space-3);">
+        <a class="gl-btn gl-btn--primary" href="#">Start building →</a>
+        <a class="gl-btn gl-btn--outline" href="#">Read the docs</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="gl-card gl-card--hover">
+        <div class="gl-card__body">
+          <span class="gl-badge gl-badge--builder" style="margin-bottom:var(--space-4);">Builder</span>
+          <h3 class="gl-card__title" style="margin-bottom:var(--space-2);">Build Once, Earn Forever</h3>
+          <p>Ship contributions to the Incentivized Builder Program and earn a permanent revenue stream.</p>
+          <a href="#" style="display:inline-block;margin-top:var(--space-4);font-weight:600;font-size:var(--fs-sm);">Submit a contribution →</a>
+        </div>
+      </article>
+      <article class="gl-card gl-card--hover">
+        <div class="gl-card__body">
+          <span class="gl-badge gl-badge--validator" style="margin-bottom:var(--space-4);">Validator</span>
+          <h3 class="gl-card__title" style="margin-bottom:var(--space-2);">Run an AI arbiter</h3>
+          <p>Join consensus and adjudicate contracts that require judgment, not just code.</p>
+          <a href="#" style="display:inline-block;margin-top:var(--space-4);font-weight:600;font-size:var(--fs-sm);">View requirements →</a>
+        </div>
+      </article>
+      <article class="gl-card gl-card--hover">
+        <div class="gl-card__body">
+          <span class="gl-badge gl-badge--community" style="margin-bottom:var(--space-4);">Community</span>
+          <h3 class="gl-card__title" style="margin-bottom:var(--space-2);">Govern the jurisdiction</h3>
+          <p>Shape Optimistic Democracy through the Deepthought DAO and earn recognition.</p>
+          <a href="#" style="display:inline-block;margin-top:var(--space-4);font-weight:600;font-size:var(--fs-sm);">See the leaderboard →</a>
+        </div>
+      </article>
+    </section>
+  </div>
+</div>
+<script src="theme.js"></script>
+</body>
+</html>

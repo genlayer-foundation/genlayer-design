@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenLayer · Dashboard</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="theme.css">
+<script>(function(){var t=localStorage.getItem('gl-theme')||'dark';document.documentElement.classList.toggle('on-dark',t==='dark');})();</script>
+<style>
+
+  .app { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+
+  /* ---------- sidebar ---------- */
+  .side { background: var(--c-bg-deep); border-right: var(--c-hairline) solid var(--c-border); padding: 22px 16px; display: flex; flex-direction: column; gap: var(--space-8); position: sticky; top: 0; height: 100vh; }
+  .side .logo { height: 20px; margin: 6px 8px var(--space-2); filter: invert(var(--c-logo-invert)); }
+  .side .group { display: flex; flex-direction: column; gap: 2px; }
+  .side .ghead { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--c-fg-subtle); padding: 0 12px; margin-bottom: 8px; }
+  .side a.item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; color: var(--c-fg-muted); font-size: var(--fs-sm); text-decoration: none; transition: background .12s, color .12s; }
+  .side a.item:hover { background: var(--c-card-hover); color: var(--c-fg); }
+  .side a.item.active { background: var(--c-border); color: var(--c-fg); }
+  .side a.item .ic { width: 8px; height: 8px; border-radius: 3px; background: var(--c-fg-subtle); flex: 0 0 8px; }
+  .side a.item.active .ic { background: var(--gl-blue); }
+  .side .spacer { flex: 1; }
+  .side .user { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; border: var(--c-hairline) solid var(--c-border); }
+  .side .user .name { font-size: var(--fs-sm); font-weight: 600; color: var(--c-fg); }
+  .side .user .addr { font-family: var(--font-mono); font-size: 11px; color: var(--c-fg-muted); }
+
+  /* ---------- main ---------- */
+  .main { min-width: 0; }
+  .topbar { position: sticky; top: 0; z-index: 10; height: 64px; display: flex; align-items: center; gap: var(--space-4); padding: 0 var(--space-8); border-bottom: var(--c-hairline) solid var(--c-border); background: var(--c-nav-bg); backdrop-filter: blur(14px); }
+  .topbar h1 { font-family: var(--font-display); font-weight: 500; font-size: 22px; letter-spacing: -0.02em; margin: 0; color: var(--c-fg); }
+  .topbar .gl-search { width: 280px; }
+  .topbar .gl-search .gl-input { height: 38px; }
+
+  .content { padding: var(--space-8); max-width: 1320px; }
+  .pagehead { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-6); }
+  .pagehead .sub { color: var(--c-fg-muted); font-size: var(--fs-sm); margin-top: 4px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: var(--space-5); }
+  .grid-main { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-5); margin-bottom: var(--space-5); }
+  .spark-wrap { display: flex; justify-content: space-between; align-items: flex-end; margin-top: var(--space-2); }
+
+  @media (max-width: 1180px) { .kpis { grid-template-columns: 1fr 1fr; } .grid-main { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) { .app { grid-template-columns: 1fr; } .side { display: none; } .kpis { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <img class="logo" src="assets/GenLayer_Logo_Black.svg" alt="GenLayer">
+    <nav class="group">
+      <span class="ghead">Portal</span>
+      <a class="item active" href="dashboard.html"><span class="ic"></span>Dashboard</a>
+      <a class="item" href="#"><span class="ic"></span>Contributions</a>
+      <a class="item" href="#"><span class="ic"></span>Validators</a>
+      <a class="item" href="#"><span class="ic"></span>Leaderboard</a>
+      <a class="item" href="#"><span class="ic"></span>Governance</a>
+    </nav>
+    <nav class="group">
+      <span class="ghead">Design System</span>
+      <a class="item" href="components.html"><span class="ic"></span>Components</a>
+      <a class="item" href="assets.html"><span class="ic"></span>Assets</a>
+      <a class="item" href="slides.html"><span class="ic"></span>Slides</a>
+      <a class="item" href="about.html"><span class="ic"></span>About</a>
+    </nav>
+    <div class="spacer"></div>
+    <div class="user">
+      <span class="gl-avatar gl-avatar--sm">MO</span>
+      <div><div class="name">mochi.eth</div><div class="addr">0x71C…9f3A</div></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <h1>Dashboard</h1>
+      <div style="flex:1;"></div>
+      <div class="gl-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+        <input class="gl-input" type="search" placeholder="Search…">
+      </div>
+      <a class="gl-btn gl-btn--ghost gl-btn--sm" href="#">Docs</a>
+      <button class="gl-theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.38 2.02A10 10 0 1022 12.5 8 8 0 0111.38 2.02z"></path></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"></path></svg>
+      </button>
+      <a class="gl-btn gl-btn--primary gl-btn--sm" href="#">Submit →</a>
+    </header>
+
+    <main class="content">
+      <div class="pagehead">
+        <div>
+          <h2 style="font-family:var(--font-display);font-weight:500;font-size:30px;letter-spacing:-0.03em;margin:0;color:var(--c-fg);">Season overview</h2>
+          <p class="sub">Testnet Bradbury · 13 — live network metrics</p>
+        </div>
+        <div class="gl-tabs" style="border:0; gap:var(--space-3);">
+          <div class="gl-seg">
+            <button class="gl-seg__item">7d</button>
+            <button class="gl-seg__item gl-seg__item--active">30d</button>
+            <button class="gl-seg__item">All</button>
+          </div>
+          <select class="gl-select" style="max-width:160px;"><option>All tracks</option><option>Builder</option><option>Validator</option><option>Community</option></select>
+        </div>
+      </div>
+
+      <!-- KPI ROW -->
+      <div class="kpis">
+        <div class="gl-card"><div class="gl-card__body" style="padding:var(--space-5);">
+          <span class="gl-stat__label">Total points</span>
+          <div class="spark-wrap">
+            <span class="gl-stat__value gl-stat__value--grad" style="font-size:34px;">48,210</span>
+            <svg class="gl-spark" viewBox="0 0 96 32" preserveAspectRatio="none"><path class="line line--up" d="M0,26 L16,22 L32,24 L48,14 L64,16 L80,6 L96,4"></path></svg>
+          </div>
+          <span class="gl-stat__delta gl-stat__delta--up" style="display:inline-block;margin-top:var(--space-2);">▲ 12.4% vs last period</span>
+        </div></div>
+        <div class="gl-card"><div class="gl-card__body" style="padding:var(--space-5);">
+          <span class="gl-stat__label">Contributors</span>
+          <div class="spark-wrap">
+            <span class="gl-stat__value" style="font-size:34px;">1,884</span>
+            <svg class="gl-spark" viewBox="0 0 96 32" preserveAspectRatio="none"><path class="line line--up" d="M0,24 L16,20 L32,22 L48,18 L64,12 L80,10 L96,6"></path></svg>
+          </div>
+          <span class="gl-stat__delta gl-stat__delta--up" style="display:inline-block;margin-top:var(--space-2);">▲ 5.1% vs last period</span>
+        </div></div>
+        <div class="gl-card"><div class="gl-card__body" style="padding:var(--space-5);">
+          <span class="gl-stat__label">Active validators</span>
+          <div class="spark-wrap">
+            <span class="gl-stat__value" style="font-size:34px;">312</span>
+            <svg class="gl-spark" viewBox="0 0 96 32" preserveAspectRatio="none"><path class="line line--down" d="M0,8 L16,10 L32,6 L48,14 L64,12 L80,18 L96,20"></path></svg>
+          </div>
+          <span class="gl-stat__delta gl-stat__delta--down" style="display:inline-block;margin-top:var(--space-2);">▼ 1.2% vs last period</span>
+        </div></div>
+        <div class="gl-card"><div class="gl-card__body" style="padding:var(--space-5);">
+          <span class="gl-stat__label">Avg. resolution</span>
+          <div class="spark-wrap">
+            <span class="gl-stat__value" style="font-size:34px;">2.4<span style="font-size:16px;color:var(--c-fg-muted);"> hrs</span></span>
+            <svg class="gl-spark" viewBox="0 0 96 32" preserveAspectRatio="none"><path class="line line--up" d="M0,18 L16,16 L32,18 L48,10 L64,12 L80,8 L96,8"></path></svg>
+          </div>
+          <span class="gl-stat__delta gl-stat__delta--up" style="display:inline-block;margin-top:var(--space-2);">▲ 0.6% vs last period</span>
+        </div></div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div class="grid-main">
+        <div class="gl-card">
+          <div class="gl-card__header">
+            <div><h3 class="gl-card__title">Consensus throughput</h3><p class="gl-card__sub">Resolved adjudications / week</p></div>
+            <span class="gl-badge gl-badge--success"><span class="gl-dot"></span>Live</span>
+          </div>
+          <div class="gl-card__body">
+            <svg class="gl-linechart" viewBox="0 0 700 220" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="gl-area-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#110FFF" stop-opacity="0.38"></stop>
+                  <stop offset="100%" stop-color="#110FFF" stop-opacity="0"></stop>
+                </linearGradient>
+                <linearGradient id="gl-line-grad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#E37DF7"></stop><stop offset="50%" stop-color="#9B6AF6"></stop><stop offset="100%" stop-color="#110FFF"></stop>
+                </linearGradient>
+              </defs>
+              <g class="grid"><line x1="0" y1="20" x2="700" y2="20"></line><line x1="0" y1="70" x2="700" y2="70"></line><line x1="0" y1="120" x2="700" y2="120"></line><line x1="0" y1="170" x2="700" y2="170"></line></g>
+              <path class="area" d="M0,180 L87,150 L175,165 L262,120 L350,135 L437,90 L525,110 L612,60 L700,38 L700,220 L0,220 Z"></path>
+              <path class="line line--gradient" d="M0,180 L87,150 L175,165 L262,120 L350,135 L437,90 L525,110 L612,60 L700,38"></path>
+            </svg>
+            <div class="gl-axis" style="margin-top:var(--space-4);"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span><span>W9</span></div>
+          </div>
+        </div>
+        <div class="gl-card">
+          <div class="gl-card__header"><h3 class="gl-card__title">By track</h3></div>
+          <div class="gl-card__body" style="display:flex;flex-direction:column;align-items:center;gap:var(--space-5);">
+            <div class="gl-donut-wrap">
+              <div class="gl-donut" style="background: conic-gradient(var(--gl-orange) 0 45%, var(--gl-sky) 45% 75%, var(--gl-purple) 75% 100%);"></div>
+              <div class="gl-donut-center"><span class="v">1,884</span><span class="k">Contributors</span></div>
+            </div>
+            <div class="gl-legend" style="flex-direction:column;gap:var(--space-2);align-self:stretch;">
+              <span class="gl-legend__item" style="justify-content:space-between;"><span><span class="gl-legend__swatch" style="background:var(--gl-orange);"></span> Builder</span><strong style="color:var(--c-fg);font-family:var(--font-mono);">848</strong></span>
+              <span class="gl-legend__item" style="justify-content:space-between;"><span><span class="gl-legend__swatch" style="background:var(--gl-sky);"></span> Validator</span><strong style="color:var(--c-fg);font-family:var(--font-mono);">565</strong></span>
+              <span class="gl-legend__item" style="justify-content:space-between;"><span><span class="gl-legend__swatch" style="background:var(--gl-purple);"></span> Community</span><strong style="color:var(--c-fg);font-family:var(--font-mono);">471</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEKLY BARS + LEADERBOARD -->
+      <div class="grid-main">
+        <div class="gl-card">
+          <div class="gl-card__header">
+            <div><h3 class="gl-card__title">Season leaderboard</h3><p class="gl-card__sub">Top contributors</p></div>
+            <a class="gl-btn gl-btn--ghost gl-btn--sm" href="#">View all →</a>
+          </div>
+          <table class="gl-table">
+            <thead><tr><th class="rank">#</th><th>Contributor</th><th>Track</th><th class="sortable sorted-desc num">Points</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="rank rank--medal">01</td><td><div class="gl-cell-user"><span class="gl-avatar gl-avatar--sm">MO</span><div><div class="name">mochi.eth</div><div class="addr">0x71C…9f3A</div></div></div></td><td><span class="gl-badge gl-badge--validator">Validator</span></td><td class="num">12,480</td><td><span class="gl-badge gl-badge--success"><span class="gl-dot"></span>Active</span></td></tr>
+              <tr><td class="rank rank--medal">02</td><td><div class="gl-cell-user"><span class="gl-avatar gl-avatar--sm">AS</span><div><div class="name">asimov.eth</div><div class="addr">0x4dB…1c20</div></div></div></td><td><span class="gl-badge gl-badge--builder">Builder</span></td><td class="num">11,205</td><td><span class="gl-badge gl-badge--success"><span class="gl-dot"></span>Active</span></td></tr>
+              <tr><td class="rank">03</td><td><div class="gl-cell-user"><span class="gl-avatar gl-avatar--sm">DT</span><div><div class="name">deepthought</div><div class="addr">0x9aE…7B11</div></div></div></td><td><span class="gl-badge gl-badge--community">Community</span></td><td class="num">9,870</td><td><span class="gl-badge gl-badge--warn"><span class="gl-dot"></span>Pending</span></td></tr>
+              <tr><td class="rank">04</td><td><div class="gl-cell-user"><span class="gl-avatar gl-avatar--sm">BR</span><div><div class="name">bradbury.eth</div><div class="addr">0x2fC…44Da</div></div></div></td><td><span class="gl-badge gl-badge--builder">Builder</span></td><td class="num">8,640</td><td><span class="gl-badge gl-badge--success"><span class="gl-dot"></span>Active</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="gl-card">
+          <div class="gl-card__header"><div><h3 class="gl-card__title">Weekly submissions</h3><p class="gl-card__sub">Accepted</p></div></div>
+          <div class="gl-card__body">
+            <div class="gl-bars">
+              <div class="gl-bar gl-bar--gradient" style="height:42%;" data-value="124"></div>
+              <div class="gl-bar gl-bar--gradient" style="height:58%;" data-value="171"></div>
+              <div class="gl-bar gl-bar--gradient" style="height:50%;" data-value="148"></div>
+              <div class="gl-bar gl-bar--gradient" style="height:72%;" data-value="212"></div>
+              <div class="gl-bar gl-bar--gradient" style="height:64%;" data-value="189"></div>
+              <div class="gl-bar gl-bar--gradient" style="height:88%;" data-value="260"></div>
+              <div class="gl-bar gl-bar--muted" style="height:36%;" data-value="106"></div>
+            </div>
+            <div class="gl-axis"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="theme.js"></script>
+</body>
+</html>

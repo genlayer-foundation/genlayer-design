@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GenLayer · Hackathon 13</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #060606; color: #fff; }
+  body { font-family: var(--font-body); }
+
+  /* ---------- NAV ---------- */
+  nav {
+    height: 64px;
+    display: flex; align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(12px);
+    background: rgba(6,6,6,.7);
+  }
+  nav .logo { height: 22px; }
+  nav .links { display: flex; gap: 28px; margin-left: 48px; font-size: 13px; }
+  nav .links a { color: rgba(255,255,255,.65); }
+  nav .links a:hover { color: #fff; text-decoration: none; }
+  nav .right { margin-left: auto; display: flex; gap: 12px; align-items: center; }
+  .pill {
+    height: 36px; padding: 0 18px; border-radius: 18px;
+    font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;
+    cursor: pointer; border: 0;
+  }
+  .pill-ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.15); }
+  .pill-white { background: #fff; color: #000; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative; overflow: hidden;
+    padding: 100px 40px 120px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: -200px -100px auto auto;
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(227,125,247,.55), rgba(155,106,246,.25) 35%, transparent 65%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: auto auto -200px -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(17,15,255,.6), rgba(17,15,255,.15) 40%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 1200px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.7);
+    padding: 8px 14px; border-radius: 999px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+    margin-bottom: 32px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--gl-pink); box-shadow: 0 0 12px var(--gl-pink); }
+
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(72px, 13vw, 200px);
+    letter-spacing: -0.07em; line-height: .9;
+    margin: 0 0 24px; color: #fff;
+    text-wrap: balance;
+  }
+  .hero h1 .gradient {
+    background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-style: italic; font-weight: 500;
+  }
+  .hero-lede {
+    font-size: 20px; color: rgba(255,255,255,.72);
+    max-width: 640px; line-height: 1.5; margin: 0 0 40px;
+  }
+  .hero-actions { display: flex; gap: 12px; }
+
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    margin-top: 72px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .hero-stats .cell {
+    background: rgba(6,6,6,.6); padding: 24px 28px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hero-stats .lab { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .hero-stats .val {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 44px; letter-spacing: -0.04em; line-height: 1;
+    color: #fff;
+  }
+  .hero-stats .val.grad { background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* ---------- Tracks section ---------- */
+  section.tracks {
+    padding: 100px 40px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .section-head {
+    max-width: 1200px; margin: 0 auto 56px;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 56px; letter-spacing: -0.04em; line-height: 1;
+    margin: 0; color: #fff; max-width: 620px;
+  }
+  .section-head p { color: rgba(255,255,255,.6); font-size: 16px; max-width: 380px; margin: 0; line-height: 1.55; }
+
+  .tracks-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .track-card {
+    position: relative; overflow: hidden;
+    border-radius: 16px;
+    padding: 28px;
+    min-height: 360px;
+    display: flex; flex-direction: column;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.02);
+    transition: transform .3s, border-color .3s;
+  }
+  .track-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,.2); }
+  .track-card .icon-wrap {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,.08);
+    margin-bottom: 80px;
+  }
+  .track-card .icon-wrap img { width: 32px; height: 32px; filter: invert(1); }
+  .track-card h3 {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 28px; letter-spacing: -0.03em; line-height: 1.1;
+    margin: 0 0 10px; color: #fff;
+  }
+  .track-card p { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.5; margin: 0 0 20px; flex: 1; }
+  .track-card .prize {
+    font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: .05em;
+    padding-top: 16px; border-top: 1px solid rgba(255,255,255,.08);
+    display: flex; justify-content: space-between;
+  }
+  .track-card .prize .k { color: rgba(255,255,255,.5); }
+  .track-card .prize .v { color: #fff; font-weight: 600; }
+  .track-card.builder { background: radial-gradient(circle at 100% 0%, rgba(238,141,36,.25), transparent 50%); }
+  .track-card.builder .icon-wrap { background: rgba(238,141,36,.2); }
+  .track-card.validator { background: radial-gradient(circle at 100% 0%, rgba(56,125,232,.25), transparent 50%); }
+  .track-card.validator .icon-wrap { background: rgba(56,125,232,.2); }
+  .track-card.community { background: radial-gradient(circle at 100% 0%, rgba(155,106,246,.3), transparent 50%); }
+  .track-card.community .icon-wrap { background: rgba(155,106,246,.2); }
+
+  /* ---------- "Build once, earn forever" banner ---------- */
+  .banner {
+    position: relative; overflow: hidden;
+    margin: 100px 40px;
+    border-radius: 32px;
+    padding: 80px 60px;
+    background: linear-gradient(135deg, #060606 0%, #1a0f3a 50%, #110FFF 100%);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+  .banner::before {
+    content: ""; position: absolute; inset: -100px -100px auto auto;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(227,125,247,.5), transparent 60%);
+    filter: blur(40px);
+  }
+  .banner-inner { position: relative; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: center; }
+  .banner h2 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(48px, 7vw, 96px); letter-spacing: -0.05em; line-height: .95;
+    margin: 0 0 24px; color: #fff;
+  }
+  .banner h2 em { font-style: italic; font-weight: 500; background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .banner p { font-size: 18px; color: rgba(255,255,255,.75); margin: 0 0 32px; line-height: 1.5; max-width: 520px; }
+  .banner-right {
+    background: rgba(0,0,0,.3); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 20px; padding: 28px;
+  }
+  .banner-right .k { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .banner-right .v {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 88px; letter-spacing: -0.06em; line-height: 1;
+    background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin: 6px 0;
+  }
+  .banner-right .note { color: rgba(255,255,255,.6); font-size: 13.5px; line-height: 1.5; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 60px 40px 40px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: rgba(255,255,255,.5);
+    font-size: 12.5px;
+  }
+  .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .foot-inner img { height: 18px; opacity: .7; }
+</style>
+</head>
+<body>
+
+<nav>
+  <img class="logo" src="../../assets/GenLayer_Logo_White.svg" alt="GenLayer">
+  <div class="links">
+    <a>Protocol</a>
+    <a>Builders</a>
+    <a>Validators</a>
+    <a>Testnet</a>
+    <a>Foundation</a>
+  </div>
+  <div class="right">
+    <button class="pill pill-ghost">Sign in</button>
+    <button class="pill pill-white">Apply →</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="dot"></span> Testnet Bradbury · Hackathon 13 · Nov 18 — Dec 14</div>
+    <h1>A hackathon where your code <span class="gradient">earns forever.</span></h1>
+    <p class="hero-lede">Ship an Intelligent Contract on GenLayer's adjudication layer. Most hackathons give you a one-time prize. GenLayer gives you a revenue stream — up to 20% of every transaction, permanently.</p>
+    <div class="hero-actions">
+      <button class="pill pill-white">Apply to build →</button>
+      <button class="pill pill-ghost">Watch the brief (2 min)</button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="cell"><div class="lab">Prize pool</div><div class="val grad">$250K</div></div>
+      <div class="cell"><div class="lab">Tracks</div><div class="val">6</div></div>
+      <div class="cell"><div class="lab">Builders in</div><div class="val">1,842</div></div>
+      <div class="cell"><div class="lab">Days left</div><div class="val">23</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tracks">
+  <div class="section-head">
+    <h2>Six tracks. One adjudication layer.</h2>
+    <p>Pick a track, ship a contract, earn from every call — judges score on consensus quality, not just cleverness.</p>
+  </div>
+  <div class="tracks-grid">
+    <div class="track-card builder">
+      <div class="icon-wrap"><img src="../../assets/track-prediction.svg"></div>
+      <h3>Prediction Markets</h3>
+      <p>Resolve real-world questions without oracles. The validators are the oracle.</p>
+      <div class="prize"><span class="k">TOP PRIZE</span><span class="v">$60,000</span></div>
+    </div>
+    <div class="track-card validator">
+      <div class="icon-wrap"><img src="../../assets/track-governance.svg"></div>
+      <h3>Onchain Governance</h3>
+      <p>Proposals adjudicated by diverse AI arbiters. Transparent by default.</p>
+      <div class="prize"><span class="k">TOP PRIZE</span><span class="v">$50,000</span></div>
+    </div>
+    <div class="track-card community">
+      <div class="icon-wrap"><img src="../../assets/track-justice.svg"></div>
+      <h3>Onchain Justice</h3>
+      <p>Dispute resolution that scales. Natural-language contracts, crypto-native enforcement.</p>
+      <div class="prize"><span class="k">TOP PRIZE</span><span class="v">$50,000</span></div>
+    </div>
+    <div class="track-card builder">
+      <div class="icon-wrap"><img src="../../assets/track-work.svg"></div>
+      <h3>AI Work & Escrow</h3>
+      <p>Agent-to-agent work with human-grade adjudication. The jurisdiction layer for autonomous economies.</p>
+      <div class="prize"><span class="k">TOP PRIZE</span><span class="v">$40,000</span></div>
+    </div>
+    <div class="track-card validator">
+      <div class="icon-wrap"><img src="../../assets/track-gaming.svg"></div>
+      <h3>AI Gaming</h3>
+      <p>Games where the rules adapt. Self-interpreting contracts arbitrate play.</p>
+      <div class="prize"><span class="k">TOP PRIZE</span><span class="v">$30,000</span></div>
+    </div>
+    <div class="track-card community">
+      <div class="icon-wrap"><img src="../../assets/track-consensus.svg"></div>
+      <h3>Consensus Research</h3>
+      <p>Push Optimistic Democracy forward. Open experiments, formal specs, breaking builds.</p>
+      <div class="prize"><span class="k">TOP PRIZE</span><span class="v">$20,000</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div>
+      <h2>Build once.<br><em>Earn forever.</em></h2>
+      <p>Every contract deployed on GenLayer earns its creator up to 20% of transaction fees — for as long as it's called. No cliffs, no vests, no revocable grants. It's in the protocol.</p>
+      <button class="pill pill-white">Read the economics →</button>
+    </div>
+    <div class="banner-right">
+      <div class="k">Creator revenue share</div>
+      <div class="v">20%</div>
+      <div class="note">Automatically routed by the protocol to the contract's deployer address on every adjudicated call. Permanent. Unrevocable.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <img src="../../assets/GenLayer_Logo_White.svg">
+    <div>© GenLayer Foundation · Testnet Bradbury 13 · <a style="color:rgba(255,255,255,.7)">docs</a> · <a style="color:rgba(255,255,255,.7)">rules</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

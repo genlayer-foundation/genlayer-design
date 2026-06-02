@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenLayer · Assets</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="theme.css">
+<script>(function(){var t=localStorage.getItem('gl-theme')||'dark';document.documentElement.classList.toggle('on-dark',t==='dark');})();</script>
+<style>
+  .wrap { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; padding: 0 var(--space-6); }
+
+  nav.top { position: sticky; top: 0; z-index: 20; height: 64px; display: flex; align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,.08); background: rgba(6,6,6,.72); backdrop-filter: blur(14px); }
+  nav.top .wrap { display: flex; align-items: center; gap: var(--space-6); width: 100%; }
+  nav.top img { height: 20px; }
+  nav.top .links { display: flex; gap: var(--space-6); margin-left: var(--space-8); }
+  nav.top .links a { color: rgba(255,255,255,.62); font-size: var(--fs-sm); }
+  nav.top .links a:hover, nav.top .links a.on { color: #fff; text-decoration: none; }
+  nav.top .right { margin-left: auto; display: flex; gap: var(--space-3); align-items: center; }
+
+  header.hero { padding: var(--space-20) 0 var(--space-12); }
+  header.hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 8vw, 92px); letter-spacing: -0.05em; line-height: .94; margin: var(--space-6) 0 var(--space-5); }
+  header.hero h1 { color: var(--c-fg); }
+  header.hero h1 .grad { background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 500; }
+  header.hero p.lede { font-size: var(--fs-body-lg); color: var(--c-fg-muted); max-width: 60ch; line-height: 1.5; margin: 0; }
+
+  section.block { padding: var(--space-12) 0; border-top: var(--c-hairline) solid var(--c-border); }
+  .block-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-8); }
+  .block-head h2 { font-family: var(--font-display); font-weight: 500; font-size: var(--fs-h2); letter-spacing: -0.03em; margin: 0; color: var(--c-fg); }
+  .block-head .kicker { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--c-fg-subtle); }
+  .block-head p { color: var(--c-fg-muted); font-size: var(--fs-sm); max-width: 42ch; margin: 0; }
+
+  /* asset grid */
+  .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--space-4); }
+  .asset { background: var(--c-card); border: var(--c-hairline) solid var(--c-border); border-radius: var(--radius-lg); overflow: hidden; }
+  .tile { aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; padding: var(--space-6); position: relative; }
+  .tile.light { background: #fff; }
+  .asset-grid.sq .tile { aspect-ratio: 1 / 1; }
+  .tile.dark { background: #0c0c0f; }
+  .tile.fog { background: var(--gl-fog); }
+  .tile img { max-width: 70%; max-height: 64px; display: block; }
+  .tile.bg img { max-width: none; max-height: none; width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .asset .meta { padding: var(--space-4) var(--space-5); border-top: var(--c-hairline) solid var(--c-border); }
+  .asset .fname { font-family: var(--font-mono); font-size: 12px; color: var(--c-fg); word-break: break-all; }
+  .asset .use { font-size: var(--fs-xs); color: var(--c-fg-muted); margin-top: 4px; line-height: 1.4; }
+
+  /* recolorable currentColor icon via mask */
+  .ic-mask { width: 40px; height: 40px; background: currentColor; -webkit-mask: var(--src) center/contain no-repeat; mask: var(--src) center/contain no-repeat; }
+  .swatch-row { display: flex; gap: 14px; align-items: center; }
+
+  /* code block */
+  pre.code { background: var(--c-field-bg); border: var(--c-hairline) solid var(--c-border); border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5); overflow-x: auto; margin: var(--space-6) 0 0;
+    font-family: var(--font-mono); font-size: 13px; line-height: 1.6; color: var(--c-fg); }
+  pre.code .c { color: var(--c-fg-subtle); }
+  pre.code .t { color: #E37DF7; }
+
+  footer { padding: var(--space-16) 0 var(--space-24); border-top: var(--c-hairline) solid var(--c-border); color: var(--c-fg-subtle); font-size: var(--fs-sm); }
+  footer a { color: var(--fg-link); }
+  @media (max-width: 820px) { nav.top .links { display: none; } }
+</style>
+</head>
+<body>
+<div class="gl-page">
+  <div class="gl-page__bloom gl-page__bloom--1"></div>
+  <div class="gl-page__bloom gl-page__bloom--2"></div>
+
+  <nav class="gl-nav">
+    <div class="gl-nav__inner">
+      <a class="gl-nav__brand" href="components.html"><img src="assets/GenLayer_Logo_Black.svg" alt="GenLayer"></a>
+      <div class="gl-nav__links">
+        <a href="components.html">Components</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="slides.html">Slides</a>
+        <a href="assets.html" aria-current="page">Assets</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="gl-nav__right">
+        <button class="gl-theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.38 2.02A10 10 0 1022 12.5 8 8 0 0111.38 2.02z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"></path></svg>
+        </button>
+        <a class="gl-btn gl-btn--primary gl-btn--sm" href="dashboard.html">Open dashboard →</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <header class="hero">
+      <span class="gl-eyebrow"><span class="gl-dot"></span>Brand assets</span>
+      <h1>Logos, marks &amp;<br><span class="grad">iconography</span></h1>
+      <p class="lede">Every brand asset in the system, with how to use it. All live in <code class="gl-kbd">assets/</code> —
+        reference them with a plain <code class="gl-kbd">&lt;img&gt;</code>, or pull from <code class="gl-kbd">{RAW_BASE}/assets/…</code> on demand.</p>
+    </header>
+
+    <!-- HOW TO USE -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">Getting started</span><h2>How to use</h2></div>
+        <p>The rules that keep the brand intact across surfaces.</p>
+      </div>
+      <div class="grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-5);">
+        <div class="gl-card"><div class="gl-card__body">
+          <ul style="margin:0; padding-left:1.1em; color:rgba(255,255,255,.72); font-size:var(--fs-sm); line-height:1.7;">
+            <li>Pick the <strong>black</strong> mark/logo for light surfaces, <strong>white</strong> for dark.</li>
+            <li><strong>Never</strong> recreate the wordmark in CSS text — always the SVG.</li>
+            <li>The triangle <strong>Mark</strong> is the center of gravity: favicon → hero.</li>
+            <li>Icons use <code class="gl-kbd">currentColor</code> — recolor via CSS <code class="gl-kbd">color</code> or a mask.</li>
+            <li>Category badges sit on their <strong>hex-blur</strong> glow.</li>
+            <li>No emoji. If an icon is missing, fall back to Lucide and flag it.</li>
+          </ul>
+        </div></div>
+        <div class="gl-card"><div class="gl-card__body">
+          <span class="gl-stat__label">Reference an asset</span>
+          <pre class="code"><span class="c">&lt;!-- wordmark on a light header --&gt;</span>
+&lt;<span class="t">img</span> src="assets/GenLayer_Logo_Black.svg"
+     alt="GenLayer" height="22"&gt;
+
+<span class="c">&lt;!-- recolor a currentColor icon --&gt;</span>
+&lt;<span class="t">span</span> class="ic"
+  style="--src:url(assets/track-work.svg);
+         color:var(--gl-sky)"&gt;&lt;/span&gt;</pre>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- LOGOS -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">Wordmark</span><h2>Logos</h2></div>
+        <p>The full GenLayer wordmark. Keep clear space; don't stretch or recolor.</p>
+      </div>
+      <div class="asset-grid">
+        <div class="asset"><div class="tile light"><img src="assets/GenLayer_Logo_Black.svg" alt=""></div>
+          <div class="meta"><div class="fname">GenLayer_Logo_Black.svg</div><div class="use">Wordmark — light surfaces</div></div></div>
+        <div class="asset"><div class="tile dark"><img src="assets/GenLayer_Logo_White.svg" alt=""></div>
+          <div class="meta"><div class="fname">GenLayer_Logo_White.svg</div><div class="use">Wordmark — dark surfaces</div></div></div>
+      </div>
+    </section>
+
+    <!-- MARK -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">Symbol</span><h2>The Mark</h2></div>
+        <p>The triangle / hexagon symbol — favicon, app icon, section anchor, 1080px hero.</p>
+      </div>
+      <div class="asset-grid">
+        <div class="asset"><div class="tile light"><img src="assets/GenLayer_Mark_Black.svg" alt=""></div>
+          <div class="meta"><div class="fname">GenLayer_Mark_Black.svg</div><div class="use">Mark — light surfaces</div></div></div>
+        <div class="asset"><div class="tile dark"><img src="assets/GenLayer_Mark_White.svg" alt=""></div>
+          <div class="meta"><div class="fname">GenLayer_Mark_White.svg</div><div class="use">Mark — dark surfaces</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/gl-symbol-small.svg" alt="" style="max-height:40px;"></div>
+          <div class="meta"><div class="fname">gl-symbol-small.svg</div><div class="use">Favicon-scale mark</div></div></div>
+      </div>
+    </section>
+
+    <!-- ICONS -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">UI icons</span><h2>Icons</h2></div>
+        <p>Thin-stroke, geometric. The first two use <code class="gl-kbd">currentColor</code> (shown recolored via mask).</p>
+      </div>
+      <div class="asset-grid">
+        <div class="asset"><div class="tile fog"><img src="assets/arrow-right.svg" alt="" style="width:34px; height:34px;"></div>
+          <div class="meta"><div class="fname">arrow-right.svg</div><div class="use">Link / CTA arrow · currentColor</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/checkbox-circle.svg" alt="" style="width:34px; height:34px;"></div>
+          <div class="meta"><div class="fname">checkbox-circle.svg</div><div class="use">Success / check · currentColor</div></div></div>
+        <div class="asset"><div class="tile dark"><img src="assets/points-gradient-icon.svg" alt="" style="max-height:44px;"></div>
+          <div class="meta"><div class="fname">points-gradient-icon.svg</div><div class="use">Points — fixed gradient fill</div></div></div>
+      </div>
+    </section>
+
+    <!-- TRACK ICONS -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">Categories</span><h2>Track icons</h2></div>
+        <p>One per contribution track. <code class="gl-kbd">currentColor</code> — tint to match the category.</p>
+      </div>
+      <div class="asset-grid">
+        <div class="asset"><div class="tile fog"><img src="assets/track-consensus.svg" alt="" style="width:40px; height:40px;"></div>
+          <div class="meta"><div class="fname">track-consensus.svg</div><div class="use">Consensus</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/track-prediction.svg" alt="" style="width:40px; height:40px;"></div>
+          <div class="meta"><div class="fname">track-prediction.svg</div><div class="use">Prediction</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/track-governance.svg" alt="" style="width:40px; height:40px;"></div>
+          <div class="meta"><div class="fname">track-governance.svg</div><div class="use">Governance</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/track-work.svg" alt="" style="width:40px; height:40px;"></div>
+          <div class="meta"><div class="fname">track-work.svg</div><div class="use">Work</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/track-justice.svg" alt="" style="width:40px; height:40px;"></div>
+          <div class="meta"><div class="fname">track-justice.svg</div><div class="use">Justice</div></div></div>
+        <div class="asset"><div class="tile fog"><img src="assets/track-gaming.svg" alt="" style="width:40px; height:40px;"></div>
+          <div class="meta"><div class="fname">track-gaming.svg</div><div class="use">Gaming</div></div></div>
+      </div>
+    </section>
+
+    <!-- BADGES + TEXTURES -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">Recognition</span><h2>Badges &amp; hex-blur</h2></div>
+        <p>Hexagonal node badges sit on their matching hex-blur glow texture.</p>
+      </div>
+      <div class="asset-grid sq">
+        <div class="asset"><div class="tile dark" style="background:#0c0c0f url(assets/hex-blur-builder.png) center/120% no-repeat;"><img src="assets/badge-builder.svg" alt="" style="width:104px; height:104px; max-width:none; max-height:none;"></div>
+          <div class="meta"><div class="fname">badge-builder.svg</div><div class="use">on hex-blur-builder.png</div></div></div>
+        <div class="asset"><div class="tile dark" style="background:#0c0c0f url(assets/hex-blur-validator.png) center/120% no-repeat;"><img src="assets/badge-validator.svg" alt="" style="width:104px; height:104px; max-width:none; max-height:none;"></div>
+          <div class="meta"><div class="fname">badge-validator.svg</div><div class="use">on hex-blur-validator.png</div></div></div>
+        <div class="asset"><div class="tile dark" style="background:#0c0c0f url(assets/hex-blur-community.png) center/120% no-repeat;"><img src="assets/badge-community.svg" alt="" style="width:104px; height:104px; max-width:none; max-height:none;"></div>
+          <div class="meta"><div class="fname">badge-community.svg</div><div class="use">on hex-blur-community.png</div></div></div>
+        <div class="asset"><div class="tile dark bg"><img src="assets/hex-blur-builder.png" alt=""></div>
+          <div class="meta"><div class="fname">hex-blur-builder.png</div><div class="use">Builder glow texture</div></div></div>
+        <div class="asset"><div class="tile dark bg"><img src="assets/hex-blur-validator.png" alt=""></div>
+          <div class="meta"><div class="fname">hex-blur-validator.png</div><div class="use">Validator glow texture</div></div></div>
+        <div class="asset"><div class="tile dark bg"><img src="assets/hex-blur-community.png" alt=""></div>
+          <div class="meta"><div class="fname">hex-blur-community.png</div><div class="use">Community glow texture</div></div></div>
+      </div>
+    </section>
+
+    <!-- BACKGROUNDS -->
+    <section class="block">
+      <div class="block-head">
+        <div><span class="kicker">Imagery</span><h2>Backgrounds</h2></div>
+        <p>Cool-toned, studio-lit hero photography. Use a bottom-up darkening gradient for legible type.</p>
+      </div>
+      <div class="asset-grid">
+        <div class="asset"><div class="tile bg dark"><img src="assets/hero-background.jpg" alt=""></div>
+          <div class="meta"><div class="fname">hero-background.jpg</div><div class="use">Hero / banner</div></div></div>
+        <div class="asset"><div class="tile bg dark"><img src="assets/cta-background.jpg" alt=""></div>
+          <div class="meta"><div class="fname">cta-background.jpg</div><div class="use">CTA section</div></div></div>
+        <div class="asset"><div class="tile bg dark"><img src="assets/prize-background.jpg" alt=""></div>
+          <div class="meta"><div class="fname">prize-background.jpg</div><div class="use">Prize / reward panel</div></div></div>
+      </div>
+    </section>
+
+    <footer>
+      All assets live in <code class="gl-kbd">assets/</code> · See <a href="DESIGN.md">DESIGN.md</a> §1 for the full manifest · <a href="components.html">Components</a> · <a href="dashboard.html">Dashboard</a> · <a href="slides.html">Slides</a>
+    </footer>
+  </div>
+</div>
+<script src="theme.js"></script>
+</body>
+</html>

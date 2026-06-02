@@ -1,0 +1,16 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*~
+.vscode/
+.idea/
+
+# Local design iteration history (not part of the public design reference)
+.design-chat-history/
+
+# Never commit the commercial F37 Lineca font to the public repo
+# (See LICENSE-FONTS.md — internal projects layer it in via their own pipeline.)
+fonts/F37Lineca*.ttf
+fonts/F37Lineca*.otf
+fonts/F37Lineca*.woff
+fonts/F37Lineca*.woff2

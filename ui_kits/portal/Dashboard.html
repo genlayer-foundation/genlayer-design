@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GenLayer Portal · UI Kit</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg-app); }
+  body { font-family: var(--font-body); color: var(--fg-1); }
+
+  /* ---------- App shell ---------- */
+  .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+  .sidebar {
+    background: #fff;
+    border-right: 1.2px solid var(--border);
+    padding: 20px 16px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .sb-logo { height: 22px; margin-bottom: 8px; }
+  .sb-section { display: flex; flex-direction: column; gap: 2px; }
+  .sb-heading {
+    font-size: 10.5px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--fg-3);
+    padding: 0 10px; margin-bottom: 6px;
+  }
+  .sb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    font-size: 13.5px; font-weight: 500; color: var(--fg-2);
+    cursor: pointer; transition: background .15s, color .15s;
+  }
+  .sb-item:hover { background: var(--gl-fog); color: var(--fg-1); }
+  .sb-item.active { background: #000; color: #fff; }
+  .sb-item .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--gl-fog); }
+  .sb-item.active .dot { background: var(--gl-gradient); }
+  .sb-item.builder .dot { background: var(--gl-orange); }
+  .sb-item.validator .dot { background: var(--gl-sky); }
+  .sb-item.community .dot { background: var(--gl-purple); }
+
+  /* ---------- Topbar ---------- */
+  .topbar {
+    height: 56px; background: #fff;
+    border-bottom: 1.2px solid var(--border);
+    display: flex; align-items: center; padding: 0 24px; gap: 20px;
+  }
+  .crumb { font-size: 13px; color: var(--fg-2); }
+  .crumb b { color: var(--fg-1); font-weight: 600; }
+  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .search {
+    display: flex; align-items: center; gap: 8px;
+    height: 34px; padding: 0 12px;
+    border: 1.2px solid var(--border); border-radius: 18px;
+    background: var(--gl-fog-hi); font-size: 13px; color: var(--fg-2);
+    min-width: 260px;
+  }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 999px;
+    background: var(--gl-gradient);
+  }
+  .cta {
+    height: 34px; padding: 0 14px; border-radius: 17px;
+    background: #000; color: #fff; font-size: 13px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 0; cursor: pointer;
+  }
+  .cta:hover { background: #1f1f1f; }
+
+  /* ---------- Main content ---------- */
+  main { padding: 32px 40px 80px; max-width: 1200px; }
+
+  .page-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; gap: 20px; }
+  .page-title {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 48px; letter-spacing: -0.04em; line-height: 1.02;
+    margin: 0 0 6px;
+  }
+  .page-sub { color: var(--fg-2); font-size: 15px; max-width: 540px; margin: 0; line-height: 1.55; }
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--fg-2); margin-bottom: 10px;
+  }
+
+  /* ---------- Hero strip (active season) ---------- */
+  .hero {
+    position: relative; overflow: hidden;
+    background: #060606; color: #fff;
+    border-radius: 16px; padding: 32px;
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 20px 60px -20px rgba(17,15,255,.4);
+  }
+  .hero-glow {
+    position: absolute; inset: auto -120px -120px auto;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(227,125,247,.6), rgba(155,106,246,.3) 40%, transparent 70%);
+    filter: blur(30px);
+  }
+  .hero-left { position: relative; z-index: 1; }
+  .hero-right { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+  .hero .eyebrow { color: rgba(255,255,255,.55); }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 72px; letter-spacing: -0.06em; line-height: .95;
+    margin: 0 0 14px; color: #fff;
+  }
+  .hero h1 em { font-style: normal; background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { color: rgba(255,255,255,.72); font-size: 16px; line-height: 1.55; max-width: 460px; margin: 0 0 20px; }
+  .hero-actions { display: flex; gap: 10px; }
+  .btn-ghost-dark { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+  .btn-ghost-dark:hover { background: rgba(255,255,255,.14); }
+  .hero-stat {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px; padding: 16px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .hero-stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.55); }
+  .hero-stat .v {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 28px; letter-spacing: -0.03em;
+  }
+  .hero-stat .v span { opacity: .5; font-size: 14px; margin-left: 4px; }
+
+  /* ---------- Stat strip ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+  .stat-card {
+    background: #fff; border: 1px solid var(--border-soft); border-radius: 12px;
+    padding: 18px 20px; box-shadow: var(--shadow-card);
+  }
+  .stat-card .lab { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); }
+  .stat-card .val {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: 34px; letter-spacing: -0.03em; margin-top: 4px;
+  }
+  .stat-card .delta { font-size: 12px; font-family: var(--font-mono); color: #16a34a; margin-top: 2px; }
+  .stat-card.accent-builder { border-top: 3px solid var(--gl-orange); }
+  .stat-card.accent-validator { border-top: 3px solid var(--gl-sky); }
+  .stat-card.accent-community { border-top: 3px solid var(--gl-purple); }
+  .stat-card.accent-brand { border-top: 3px solid var(--gl-blue); }
+
+  /* ---------- Two-column grid ---------- */
+  .grid-2 { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+
+  /* ---------- Leaderboard card ---------- */
+  .card { background: #fff; border: 1px solid var(--border-soft); border-radius: 14px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .card-head { padding: 18px 22px; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; justify-content: space-between; }
+  .card-head h3 { margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 20px; letter-spacing: -0.02em; }
+  .card-head a { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+
+  .lb-row {
+    display: grid; grid-template-columns: 36px 1fr auto auto auto;
+    align-items: center; gap: 14px;
+    padding: 12px 22px; border-bottom: 1px solid var(--border-soft);
+  }
+  .lb-row:last-child { border: 0; }
+  .lb-rank {
+    font-family: var(--font-mono); font-size: 13px; color: var(--fg-2);
+    text-align: center;
+  }
+  .lb-rank.top { color: var(--fg-1); font-weight: 700; }
+  .lb-user { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 14px; }
+  .lb-user .av { width: 28px; height: 28px; border-radius: 999px; background: var(--gl-gradient); flex-shrink: 0; }
+  .lb-tag {
+    font-size: 10.5px; padding: 3px 8px; border-radius: 999px;
+    font-weight: 600; letter-spacing: .02em;
+  }
+  .tag-builder { background: #ffedd5; color: #c2410c; }
+  .tag-validator { background: #e0f2fe; color: #0369a1; }
+  .tag-community { background: #ede9fe; color: #6d28d9; }
+  .lb-pts { font-family: var(--font-mono); font-weight: 600; font-size: 14px; }
+  .lb-delta { font-family: var(--font-mono); font-size: 12px; color: #16a34a; min-width: 50px; text-align: right; }
+
+  /* ---------- Right column: steps / actions ---------- */
+  .action-stack { display: flex; flex-direction: column; gap: 12px; }
+  .action {
+    background: #fff; border: 1px solid var(--border-soft);
+    border-radius: 12px; padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+    cursor: pointer; transition: background .15s, border-color .15s;
+  }
+  .action:hover { background: var(--gl-fog-hi); }
+  .action-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: #fff7ed; color: #c2410c; font-family: var(--font-mono); font-weight: 600;
+  }
+  .action.validator .action-icon { background: #e0f2fe; color: #0369a1; }
+  .action.community .action-icon { background: #ede9fe; color: #6d28d9; }
+  .action h4 { margin: 0 0 2px; font-size: 14px; font-weight: 600; font-family: var(--font-body); letter-spacing: 0; }
+  .action p { margin: 0; font-size: 12.5px; color: var(--fg-2); line-height: 1.45; }
+  .action .arr { margin-left: auto; color: var(--fg-3); font-size: 14px; align-self: center; }
+
+  /* ---------- Contributions table ---------- */
+  .table-card { margin-top: 24px; }
+  .th {
+    display: grid; grid-template-columns: 1.4fr .8fr .8fr 100px 90px;
+    padding: 10px 22px; background: var(--gl-fog-hi);
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-2); font-weight: 600;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .tr {
+    display: grid; grid-template-columns: 1.4fr .8fr .8fr 100px 90px;
+    padding: 14px 22px; border-bottom: 1px solid var(--border-soft);
+    align-items: center; font-size: 13.5px;
+  }
+  .tr:last-child { border: 0; }
+  .tr .title { font-weight: 600; }
+  .tr .title small { display: block; color: var(--fg-3); font-weight: 400; font-size: 11.5px; margin-top: 2px; font-family: var(--font-mono); }
+  .status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+  }
+  .status::before { content: ""; width: 6px; height: 6px; border-radius: 999px; }
+  .status.live::before { background: #16a34a; }
+  .status.pending::before { background: #F59E0B; }
+  .status.review::before { background: #387DE8; }
+  .pts { font-family: var(--font-mono); font-weight: 700; text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <img src="../../assets/GenLayer_Logo_Black.svg" class="sb-logo" alt="GenLayer">
+    <div class="sb-section">
+      <div class="sb-heading">Overview</div>
+      <div class="sb-item active"><span class="dot"></span> Dashboard</div>
+      <div class="sb-item"><span class="dot"></span> Contributions</div>
+      <div class="sb-item"><span class="dot"></span> Leaderboard</div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-heading">Tracks</div>
+      <div class="sb-item builder"><span class="dot"></span> Builders</div>
+      <div class="sb-item validator"><span class="dot"></span> Validators</div>
+      <div class="sb-item community"><span class="dot"></span> Community</div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-heading">Programs</div>
+      <div class="sb-item"><span class="dot"></span> Testnet Bradbury</div>
+      <div class="sb-item"><span class="dot"></span> Hackathons</div>
+      <div class="sb-item"><span class="dot"></span> Deepthought DAO</div>
+    </div>
+  </aside>
+
+  <!-- Right side -->
+  <div>
+    <div class="topbar">
+      <div class="crumb">Portal / <b>Dashboard</b></div>
+      <div class="tb-right">
+        <div class="search">⌕ Search contributions, people, tracks…</div>
+        <button class="cta">Submit a contribution →</button>
+        <div class="avatar"></div>
+      </div>
+    </div>
+
+    <main>
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Testnet Bradbury · Season 13</div>
+          <h1 class="page-title">Build. Earn. Permanently.</h1>
+          <p class="page-sub">Every Intelligent Contract deployed on GenLayer earns its creator up to 20% of transaction fees — permanently. Contribute to the adjudication layer and watch the rewards compound.</p>
+        </div>
+        <button class="cta">Deploy a contract →</button>
+      </div>
+
+      <!-- HERO CARD -->
+      <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-left">
+          <div class="eyebrow">Active season</div>
+          <h1>Bradbury <em>13</em></h1>
+          <p>The first testnet where AI directly participates in blockchain consensus. 4,200+ validators, 812 contracts, and counting — your code earns every time it's called.</p>
+          <div class="hero-actions">
+            <button class="cta">Join the testnet →</button>
+            <button class="cta btn-ghost-dark">Read the spec</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-stat"><div><div class="k">Active validators</div></div><div class="v">4,218<span>/ 5,000</span></div></div>
+          <div class="hero-stat"><div><div class="k">Contracts deployed</div></div><div class="v">812</div></div>
+          <div class="hero-stat"><div><div class="k">Avg. finality</div></div><div class="v">2.4<span>s</span></div></div>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section class="stats">
+        <div class="stat-card accent-brand">
+          <div class="lab">Your Points</div>
+          <div class="val">12,480</div>
+          <div class="delta">+312 this week</div>
+        </div>
+        <div class="stat-card accent-builder">
+          <div class="lab">Builder Rank</div>
+          <div class="val">#47</div>
+          <div class="delta">▲ 6 this week</div>
+        </div>
+        <div class="stat-card accent-validator">
+          <div class="lab">Uptime</div>
+          <div class="val">99.94%</div>
+          <div class="delta">30-day avg</div>
+        </div>
+        <div class="stat-card accent-community">
+          <div class="lab">Referrals</div>
+          <div class="val">18</div>
+          <div class="delta">+3 this week</div>
+        </div>
+      </section>
+
+      <!-- LEADERBOARD + NEXT STEPS -->
+      <section class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h3>Season leaderboard</h3>
+            <a href="#">View all →</a>
+          </div>
+          <div class="lb-row"><div class="lb-rank top">01</div><div class="lb-user"><div class="av"></div>yeager.eth</div><span class="lb-tag tag-builder">BUILDER</span><div class="lb-pts">48,212</div><div class="lb-delta">+120</div></div>
+          <div class="lb-row"><div class="lb-rank top">02</div><div class="lb-user"><div class="av" style="background:var(--grad-validator)"></div>deepthought.genlayer</div><span class="lb-tag tag-validator">VALIDATOR</span><div class="lb-pts">39,950</div><div class="lb-delta">+84</div></div>
+          <div class="lb-row"><div class="lb-rank top">03</div><div class="lb-user"><div class="av" style="background:var(--grad-community)"></div>mochi.dao</div><span class="lb-tag tag-community">COMMUNITY</span><div class="lb-pts">31,102</div><div class="lb-delta">+52</div></div>
+          <div class="lb-row"><div class="lb-rank">04</div><div class="lb-user"><div class="av" style="background:var(--grad-builder)"></div>rasca</div><span class="lb-tag tag-builder">BUILDER</span><div class="lb-pts">27,880</div><div class="lb-delta">+41</div></div>
+          <div class="lb-row"><div class="lb-rank">05</div><div class="lb-user"><div class="av"></div>asimov.core</div><span class="lb-tag tag-validator">VALIDATOR</span><div class="lb-pts">24,560</div><div class="lb-delta">+38</div></div>
+          <div class="lb-row"><div class="lb-rank" style="color:var(--gl-blue);font-weight:700">47</div><div class="lb-user"><div class="av"></div>you</div><span class="lb-tag tag-builder">BUILDER</span><div class="lb-pts">12,480</div><div class="lb-delta">+21</div></div>
+        </div>
+
+        <div>
+          <div class="eyebrow" style="margin-bottom:10px">Next up for you</div>
+          <div class="action-stack">
+            <div class="action">
+              <div class="action-icon">01</div>
+              <div>
+                <h4>Deploy your first Intelligent Contract</h4>
+                <p>Natural-language contract that adjudicates on the testnet. +2,500 pts.</p>
+              </div>
+              <div class="arr">→</div>
+            </div>
+            <div class="action validator">
+              <div class="action-icon">02</div>
+              <div>
+                <h4>Run a validator for 7 days</h4>
+                <p>Keep uptime above 99% to qualify for the streak bonus.</p>
+              </div>
+              <div class="arr">→</div>
+            </div>
+            <div class="action community">
+              <div class="action-icon">03</div>
+              <div>
+                <h4>Invite a builder</h4>
+                <p>Earn 10% of their Season points — uncapped.</p>
+              </div>
+              <div class="arr">→</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTRIBUTIONS TABLE -->
+      <section class="card table-card">
+        <div class="card-head">
+          <h3>Recent contributions</h3>
+          <a href="#">All contributions →</a>
+        </div>
+        <div class="th">
+          <div>Contribution</div>
+          <div>Track</div>
+          <div>Submitted</div>
+          <div>Status</div>
+          <div style="text-align:right">Points</div>
+        </div>
+        <div class="tr">
+          <div class="title">Optimistic Adjudicator v0.3<small>genlayer/adjudicator#217</small></div>
+          <div><span class="lb-tag tag-builder">BUILDER</span></div>
+          <div style="color:var(--fg-2)">Nov 12</div>
+          <div><span class="status live">Merged</span></div>
+          <div class="pts">+ 2,500</div>
+        </div>
+        <div class="tr">
+          <div class="title">Validator uptime · Week 6<small>node: gl-node-01</small></div>
+          <div><span class="lb-tag tag-validator">VALIDATOR</span></div>
+          <div style="color:var(--fg-2)">Nov 10</div>
+          <div><span class="status live">Confirmed</span></div>
+          <div class="pts">+ 420</div>
+        </div>
+        <div class="tr">
+          <div class="title">Bradbury deep-dive writeup<small>mirror.xyz/yeager</small></div>
+          <div><span class="lb-tag tag-community">COMMUNITY</span></div>
+          <div style="color:var(--fg-2)">Nov 08</div>
+          <div><span class="status review">In review</span></div>
+          <div class="pts">+ 800</div>
+        </div>
+        <div class="tr">
+          <div class="title">Prediction-market template PR<small>genlayer-examples#94</small></div>
+          <div><span class="lb-tag tag-builder">BUILDER</span></div>
+          <div style="color:var(--fg-2)">Nov 05</div>
+          <div><span class="status pending">Pending</span></div>
+          <div class="pts">+ 1,200</div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

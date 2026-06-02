@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>GenLayer — Ecosystem Update · May 2026</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  :root {
+    /* Slide-specific type & spacing scale (1920×1080) */
+    --type-eyebrow: 24px;
+    --type-title:   104px;
+    --type-section: 80px;
+    --type-h:       56px;
+    --type-sub:     40px;
+    --type-body:    32px;
+    --type-small:   26px;
+    --type-stat:    180px;
+    --pad-x:        120px;
+    --pad-y:        100px;
+    --gap-title:    72px;
+    --gap-block:    48px;
+    --gap-item:     22px;
+  }
+
+  html, body { margin: 0; background: #0a0a0a; }
+  body { font-family: var(--font-body); color: var(--fg-1); }
+
+  /* ---------- Slide foundations ---------- */
+  deck-stage section {
+    background: var(--gl-paper);
+    color: var(--fg-1);
+    overflow: hidden;
+    position: relative;
+  }
+  .slide-pad {
+    position: absolute; inset: 0;
+    padding: var(--pad-y) var(--pad-x);
+    display: flex; flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  /* ---------- Eyebrow + Title (chapter header pattern) ---------- */
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gl-ink-500);
+    display: flex; align-items: center; gap: 18px;
+  }
+  .eyebrow .num {
+    color: var(--gl-blue);
+    font-variant-numeric: tabular-nums;
+  }
+  .eyebrow .dot {
+    width: 8px; height: 8px;
+    background: var(--gl-blue);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .slide-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--type-title);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    color: var(--gl-black);
+    margin: 28px 0 0 0;
+  }
+
+  /* ---------- Footer mark on every content slide ---------- */
+  .footer-bar {
+    position: absolute;
+    left: var(--pad-x); right: var(--pad-x); bottom: 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-body);
+    font-size: 24px;
+    color: var(--gl-ink-400);
+    letter-spacing: 0.04em;
+  }
+  .footer-bar img.mark { height: 28px; }
+  .footer-bar .where { font-weight: 500; color: var(--gl-ink-500); }
+
+  /* ---------- Reusable bits ---------- */
+  .body-text {
+    font-size: var(--type-body);
+    line-height: 1.4;
+    color: var(--gl-ink-800);
+  }
+  .small-text { font-size: var(--type-small); line-height: 1.45; color: var(--gl-ink-700); }
+  .muted { color: var(--gl-ink-500); }
+
+  .col-label {
+    font-family: var(--font-body);
+    font-size: var(--type-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gl-ink-500);
+    margin-bottom: 18px;
+  }
+  .col-label.blue { color: var(--gl-blue); }
+  .col-label.orange { color: var(--gl-orange-lo); }
+  .col-label.sky { color: var(--gl-sky-lo); }
+  .col-label.purple { color: var(--gl-purple-lo); }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    background: var(--gl-fog);
+    border: 1.2px solid var(--gl-line);
+    font-size: var(--type-small);
+    font-weight: 500;
+    color: var(--gl-ink-800);
+  }
+  .pill.live::before {
+    content: "";
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--state-success);
+    box-shadow: 0 0 0 4px rgba(22,163,74,0.18);
+  }
+  .pill.working::before {
+    content: "";
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--gl-orange);
+    box-shadow: 0 0 0 4px rgba(238,141,36,0.20);
+  }
+
+  .rule {
+    height: 1.2px; background: var(--gl-line);
+    width: 100%;
+  }
+
+  /* ---------- COVER (slide 1) ---------- */
+  .cover {
+    background: #060606 !important;
+    color: var(--gl-white);
+  }
+  .cover .stripe {
+    position: absolute; left: 0; right: 0; bottom: 0; top: 0;
+    background:
+      radial-gradient(ellipse 1200px 700px at 85% 110%, rgba(155,106,246,0.55), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 100% 0%, rgba(17,15,255,0.45), transparent 55%),
+      radial-gradient(ellipse 800px 600px at 10% 80%, rgba(227,125,247,0.20), transparent 60%);
+    pointer-events: none;
+  }
+  .cover .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 1200px 800px at 50% 50%, black 40%, transparent 80%);
+  }
+  .cover .pad {
+    position: absolute; inset: 0;
+    padding: var(--pad-y) var(--pad-x);
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .cover .top {
+    display: flex; justify-content: space-between; align-items: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 24px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .cover .top img { height: 40px; }
+  .cover h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 200px;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--gl-white);
+    margin: 0;
+  }
+  .cover h1 .grad {
+    background: linear-gradient(100deg, #E37DF7 0%, #9B6AF6 45%, #6F8DFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .cover .meta {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    color: rgba(255,255,255,0.65);
+    font-size: 28px;
+    font-weight: 400;
+  }
+  .cover .meta .date {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 56px;
+    color: var(--gl-white);
+    letter-spacing: -0.02em;
+  }
+  .cover .meta .right { text-align: right; }
+  .cover .agenda {
+    display: flex; flex-direction: column; gap: 6px;
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.55);
+  }
+  .cover .agenda span { white-space: nowrap; }
+
+  /* ---------- SECTION DIVIDER pattern (for slide 5/6/7/8/9 reuse not used; using consistent content frame) ---------- */
+
+  /* ---------- VALIDATORS layout (slide 2) ---------- */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 56px;
+    margin-top: var(--gap-block);
+  }
+  .stat-block {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 140px;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--gl-black);
+  }
+  .stat-num .unit {
+    display: block;
+    font-size: 40px;
+    color: var(--gl-ink-500);
+    letter-spacing: -0.02em;
+    margin-top: 8px;
+  }
+  .stat-label {
+    font-size: var(--type-body);
+    color: var(--gl-ink-800);
+    font-weight: 500;
+  }
+  .stat-sub {
+    font-size: var(--type-small);
+    color: var(--gl-ink-500);
+    line-height: 1.4;
+  }
+  .stack-rows {
+    display: flex; flex-direction: column; gap: 18px;
+    margin-top: 8px;
+  }
+  .row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 24px;
+    padding: 14px 0;
+    border-bottom: 1.2px solid var(--gl-line);
+    font-size: var(--type-small);
+  }
+  .row .k { color: var(--gl-ink-700); flex: 1; }
+  .row .v {
+    flex: none;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--gl-black);
+    letter-spacing: -0.02em;
+  }
+  .row.total .k, .row.total .v { color: var(--gl-blue); }
+  .row.total .v { font-size: 44px; }
+  .row.total { border-bottom: none; padding-top: 22px; }
+
+  .goal-list {
+    margin-top: 56px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .goal {
+    display: flex; align-items: flex-start; gap: 22px;
+    font-size: var(--type-small);
+    color: var(--gl-ink-800);
+    line-height: 1.4;
+  }
+  .goal .idx {
+    flex: none;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--gl-black);
+    color: var(--gl-white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  /* ---------- PROJECTS (slide 3) ---------- */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    margin-top: var(--gap-block);
+    flex: 1;
+  }
+  .project-col h3 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--type-eyebrow);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 22px 0;
+  }
+  .project-pills {
+    display: flex; flex-wrap: wrap; gap: 14px;
+  }
+  .project-pills .pill {
+    font-size: 26px;
+    padding: 14px 22px;
+  }
+  .new-sourcing {
+    margin-top: 8px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .new-sourcing .item {
+    display: flex; align-items: flex-start; gap: 22px;
+    padding: 26px 28px;
+    border-radius: 14px;
+    border: 1.2px solid var(--gl-line);
+    background: var(--gl-paper);
+    box-shadow: var(--shadow-card);
+  }
+  .new-sourcing .item .marker {
+    flex: none;
+    width: 10px; height: 56px; border-radius: 6px;
+    background: var(--gl-gradient);
+  }
+  .new-sourcing .item .text {
+    font-size: var(--type-small);
+    color: var(--gl-ink-800);
+    line-height: 1.4;
+  }
+  .deal-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(17,15,255,0.08);
+    color: var(--gl-blue);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pipedrive-card {
+    margin-top: 28px;
+    padding: 26px 28px;
+    border-radius: 14px;
+    background: var(--gl-fog-hi);
+    border: 1.2px solid var(--gl-line);
+    font-size: var(--type-small);
+    color: var(--gl-ink-800);
+  }
+  .pipedrive-card .label {
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gl-ink-500);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  /* ---------- METRICS (slide 4) ---------- */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 80px;
+    margin-top: var(--gap-block);
+    flex: 1;
+  }
+  .metric {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 30px 0;
+    border-top: 1.2px solid var(--gl-line);
+  }
+  .metric .num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--type-stat);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--gl-black);
+  }
+  .metric .num .plus,
+  .metric .num .k {
+    color: var(--gl-blue);
+  }
+  .metric .label {
+    margin-top: 14px;
+    font-size: var(--type-body);
+    color: var(--gl-ink-700);
+    font-weight: 500;
+  }
+  .metric .sub {
+    margin-top: 4px;
+    font-size: 24px;
+    color: var(--gl-ink-500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- BULLETED CONTENT slides (5, 6, 8, 9) ---------- */
+  .topic-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: var(--gap-block);
+    flex: 1;
+  }
+  .topic-left {
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+  .topic-illustration {
+    width: 100%;
+    aspect-ratio: 1.1 / 1;
+    border-radius: 18px;
+    background:
+      radial-gradient(ellipse 70% 80% at 30% 30%, rgba(155,106,246,0.20), transparent 65%),
+      radial-gradient(ellipse 60% 70% at 80% 70%, rgba(17,15,255,0.18), transparent 70%),
+      #f5f4ff;
+    position: relative;
+    overflow: hidden;
+    border: 1.2px solid var(--gl-line);
+  }
+  .topic-illustration .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.2px solid rgba(17,15,255,0.18);
+  }
+  .topic-illustration .ring.r1 { inset: 8%; }
+  .topic-illustration .ring.r2 { inset: 18%; border-color: rgba(155,106,246,0.22); }
+  .topic-illustration .ring.r3 { inset: 30%; border-color: rgba(227,125,247,0.22); }
+  .topic-illustration .mark-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .topic-illustration .mark-overlay img {
+    width: 42%;
+    opacity: 0.85;
+  }
+  .topic-bullets {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+  }
+  .topic-bullet {
+    display: flex; align-items: flex-start; gap: 28px;
+    font-size: 40px;
+    line-height: 1.25;
+    color: var(--gl-ink-800);
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+  .topic-bullet .dot {
+    flex: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gl-blue);
+    margin-top: 22px;
+  }
+  .topic-bullet .num {
+    flex: none;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 36px;
+    color: var(--gl-ink-400);
+    letter-spacing: -0.02em;
+    min-width: 56px;
+  }
+
+  /* ---------- GYM (slide 7) ---------- */
+  .gym-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    margin-top: var(--gap-block);
+    flex: 1;
+  }
+  .gym-tagline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--gl-black);
+    max-width: 800px;
+  }
+  .gym-tagline em {
+    font-style: normal;
+    color: var(--gl-blue);
+  }
+  .gym-body {
+    margin-top: 28px;
+    font-size: 26px;
+    line-height: 1.4;
+    color: var(--gl-ink-700);
+    max-width: 760px;
+  }
+  .gym-headline {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 64px 56px;
+    border-radius: 24px;
+    background: #0a0a0a;
+    color: var(--gl-white);
+    position: relative;
+    overflow: hidden;
+  }
+  .gym-headline .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 90% 90% at 80% 10%, rgba(155,106,246,0.55), transparent 60%),
+      radial-gradient(ellipse 70% 70% at 10% 100%, rgba(17,15,255,0.45), transparent 60%);
+    pointer-events: none;
+  }
+  .gym-headline .label {
+    font-size: 24px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    position: relative;
+  }
+  .gym-headline .big {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 280px;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: var(--gl-white);
+    margin: 24px 0 14px 0;
+    position: relative;
+    background: linear-gradient(120deg, #FFFFFF 0%, #E37DF7 40%, #9B6AF6 70%, #6F8DFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gym-headline .caption {
+    font-size: 32px;
+    color: rgba(255,255,255,0.85);
+    max-width: 520px;
+    line-height: 1.3;
+    position: relative;
+  }
+  .loom-links {
+    margin-top: 36px;
+    display: flex; flex-direction: column; gap: 14px;
+    font-size: 24px;
+  }
+  .loom-links a {
+    color: var(--gl-blue);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .loom-links a::before {
+    content: "▶";
+    color: var(--gl-blue);
+    font-size: 16px;
+  }
+  .loom-links a:hover { text-decoration: underline; }
+
+  /* ---------- HIRING (slide 9) ---------- */
+  .hiring-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: var(--gap-block);
+    flex: 1;
+    align-content: start;
+  }
+  .role-card {
+    padding: 36px 36px;
+    border-radius: 18px;
+    border: 1.2px solid var(--gl-line);
+    background: var(--gl-paper);
+    box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .role-card .role-eyebrow,
+  .referral-card .role-eyebrow {
+    font-size: 24px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gl-ink-500);
+    font-weight: 600;
+  }
+  a.role-card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 200ms, box-shadow 200ms, transform 200ms;
+  }
+  a.role-card-link:hover {
+    border-color: var(--gl-blue);
+    box-shadow: var(--shadow-card-hi);
+  }
+  a.role-card-link .role-link {
+    margin-top: auto;
+    font-family: var(--font-body);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--gl-blue);
+    letter-spacing: -0.01em;
+  }
+  .role-card .role-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 44px;
+    letter-spacing: -0.02em;
+    color: var(--gl-black);
+    line-height: 1.05;
+  }
+  .role-card .role-sub {
+    font-size: 24px;
+    color: var(--gl-ink-500);
+    line-height: 1.4;
+  }
+  .referral-card {
+    padding: 36px;
+    border-radius: 18px;
+    background: var(--gl-black);
+    color: var(--gl-white);
+    display: flex; flex-direction: column; gap: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .referral-card .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 100% at 100% 0%, rgba(155,106,246,0.4), transparent 60%),
+      radial-gradient(ellipse 80% 80% at 0% 100%, rgba(17,15,255,0.4), transparent 70%);
+    pointer-events: none;
+  }
+  .referral-card .role-eyebrow { color: rgba(255,255,255,0.7); position: relative; }
+  .referral-card .role-title { color: var(--gl-white); font-size: 96px; position: relative; }
+  .referral-card .role-sub { color: rgba(255,255,255,0.85); position: relative; font-size: 26px; }
+
+  /* ---------- INTERNET COURT / ORACLE — header-with-mark side card ---------- */
+  .court-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    margin-top: var(--gap-block);
+    flex: 1;
+  }
+  .actions-list {
+    display: flex; flex-direction: column;
+  }
+  .action {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: center;
+    padding: 30px 0;
+    border-top: 1.2px solid var(--gl-line);
+    font-size: 44px;
+    color: var(--gl-black);
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    line-height: 1.15;
+    font-family: var(--font-display);
+  }
+  .action:last-child { border-bottom: 1.2px solid var(--gl-line); }
+  .action .idx {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--gl-blue);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .product-card {
+    border-radius: 24px;
+    background: linear-gradient(160deg, #fff 0%, #f5f4ff 100%);
+    border: 1.2px solid var(--gl-line);
+    padding: 56px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card .glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    right: -200px; bottom: -200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(155,106,246,0.35), transparent 70%);
+    pointer-events: none;
+  }
+  .product-card .glow2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    left: -150px; top: -150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(17,15,255,0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .product-card .badge {
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    color: var(--gl-blue);
+    position: relative;
+  }
+  .product-card .product-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--gl-black);
+    margin: 18px 0 28px 0;
+    position: relative;
+  }
+  .product-card .product-desc {
+    font-size: 28px;
+    color: var(--gl-ink-700);
+    line-height: 1.4;
+    max-width: 460px;
+    position: relative;
+  }
+  .product-card .product-mark {
+    margin-top: 40px;
+    position: relative;
+    display: flex; justify-content: flex-end;
+  }
+  .product-card .product-mark img {
+    width: 180px;
+    opacity: 0.9;
+  }
+
+  /* ---------- GENTALKS slide 8 callout ---------- */
+  .talks-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: var(--gap-block);
+    flex: 1;
+  }
+  .talks-visual {
+    border-radius: 24px;
+    background: #0a0a0a;
+    color: var(--gl-white);
+    position: relative;
+    overflow: hidden;
+    padding: 56px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .talks-visual .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 80% at 50% 0%, rgba(227,125,247,0.4), transparent 60%),
+      radial-gradient(ellipse 80% 80% at 100% 100%, rgba(17,15,255,0.4), transparent 60%);
+  }
+  .talks-visual .label {
+    position: relative;
+    font-size: 24px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+  .talks-visual .word {
+    position: relative;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 200px;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    background: linear-gradient(120deg, #E37DF7 0%, #9B6AF6 50%, #6F8DFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .talks-visual .play {
+    position: relative;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 1.2px solid rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    align-self: flex-end;
+  }
+  .talks-visual .play::after {
+    content: "";
+    width: 0; height: 0;
+    border-left: 40px solid var(--gl-white);
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    margin-left: 8px;
+  }
+
+  /* ---------- PORTAL TIMELINE (slide 10 · 09) ---------- */
+  .timeline {
+    margin-top: 28px;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 32px;
+    position: relative;
+  }
+  .week {
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .week .w-label {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gl-ink-500);
+  }
+  .week.shipped .w-label { color: var(--gl-blue); }
+  .week.in-progress .w-label { color: var(--gl-purple-lo); }
+  .week .w-dates {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--gl-black);
+    margin-top: 6px;
+  }
+  .week.tbd .w-dates { font-style: italic; color: var(--gl-ink-700); }
+  .w-status {
+    display: inline-flex; align-items: center;
+    align-self: flex-start;
+    margin-top: 12px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .w-status.shipped {
+    background: var(--gl-blue);
+    color: var(--gl-white);
+  }
+  .w-status.in-progress {
+    background: var(--gl-purple-lo);
+    color: var(--gl-white);
+  }
+  .w-status.tbd {
+    background: var(--gl-line);
+    color: var(--gl-ink-500);
+  }
+  .w-track {
+    position: relative;
+    height: 24px;
+    margin: 28px 0 24px 0;
+    display: flex; align-items: center;
+  }
+  .w-track .rail {
+    position: absolute;
+    left: 0; right: -32px;
+    top: 50%; transform: translateY(-50%);
+    height: 2px;
+    background: var(--gl-line);
+  }
+  .week.shipped .w-track .rail { background: var(--gl-blue); }
+  .week.in-progress .w-track .rail { background: var(--gl-purple-lo); }
+  .week:last-child .w-track .rail { right: 0; }
+  .w-dot {
+    position: relative;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    background: var(--gl-fog);
+    border: 2px solid var(--gl-line);
+  }
+  .week.shipped .w-dot { background: var(--gl-blue); border-color: var(--gl-blue); }
+  .week.in-progress .w-dot { background: var(--gl-purple-lo); border-color: var(--gl-purple-lo); }
+  .week.tbd .w-dot { background: var(--gl-paper); border-style: dashed; }
+
+  .w-items {
+    display: flex; flex-direction: column;
+  }
+  .w-item {
+    padding: 14px 0;
+    border-top: 1.2px solid var(--gl-line);
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--gl-ink-800);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+  .w-item:last-child { border-bottom: 1.2px solid var(--gl-line); }
+  .week.shipped .w-item { color: var(--gl-blue); }
+  .week.shipped .w-item.link { text-decoration: underline; text-underline-offset: 4px; }
+  .week.tbd .w-item { font-style: italic; color: var(--gl-ink-700); }
+  .w-item-block {
+    background: rgba(95,51,202,0.08);
+    border-left: 3px solid var(--gl-purple-lo);
+    padding-left: 14px;
+    margin-left: -17px;
+  }
+  .w-item-block .w-item { color: var(--gl-black); border-color: rgba(95,51,202,0.18); }
+  .w-tag {
+    flex: none;
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--gl-purple-lo);
+    color: var(--gl-white);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .w-tag.carryover { background: rgba(17,15,255,0.10); color: var(--gl-blue); }
+  .w-tag.new { background: var(--gl-purple-lo); color: var(--gl-white); }
+  .w-sub {
+    margin-top: 14px;
+    font-size: 24px;
+    color: var(--gl-ink-500);
+    font-style: italic;
+    text-align: center;
+  }
+  .w-nest {
+    margin-top: 8px;
+    padding-left: 16px;
+    display: flex; flex-direction: column; gap: 4px;
+    font-size: 24px;
+    color: var(--gl-ink-500);
+    font-style: italic;
+  }
+  .w-nest .n { display: flex; align-items: baseline; gap: 8px; }
+  .w-nest .n::before { content: "—"; color: var(--gl-ink-400); }
+
+  .timeline-eyebrow {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gl-ink-500);
+    margin-top: 24px;
+  }
+  /* Section divider colored backgrounds for visual rhythm */
+  .bg-fog { background: var(--gl-fog-hi); }
+  .bg-fog .footer-bar { color: var(--gl-ink-500); }
+</style>
+
+<script type="application/json" id="speaker-notes">
+[
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  ""
+]
+</script>
+</head>
+<body>
+
+<a href="components.html" style="position:fixed;z-index:50;top:18px;left:20px;font-family:system-ui;font-size:13px;color:rgba(255,255,255,.75);text-decoration:none;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;">← Design System</a>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ============== SLIDE 1 — COVER ============== -->
+<section data-screen-label="01 Cover" class="cover">
+  <div class="stripe"></div>
+  <div class="grid-bg"></div>
+  <div class="pad">
+    <div class="top">
+      <img src="assets/GenLayer_Logo_White.svg" alt="GenLayer" />
+      <span>Foundation · Internal</span>
+    </div>
+
+    <div>
+      <div style="font-family: var(--font-body); font-size: 26px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 32px;">
+        Ecosystem Update
+      </div>
+      <h1>
+        GenLayer<br/>
+        <span class="grad">Ecosystem Update.</span>
+      </h1>
+    </div>
+
+    <div class="meta">
+      <div>
+        <div style="font-size: 24px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 10px;">As of</div>
+        <div class="date">May 2026</div>
+      </div>
+      <div class="right">
+        <div class="agenda" style="font-size: 24px; text-align: right;">
+          <span>Validators</span>
+          <span>Projects</span>
+          <span>Metrics</span>
+          <span>Internet Court</span>
+          <span>GenLayer Gym</span>
+          <span>GenTalks</span>
+          <span>Hiring</span>
+          <span>Portal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SLIDE 2 — TESTNET / MAINNET ============== -->
+<section data-screen-label="02 Validators">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">01</span><span class="dot"></span><span>Validators</span></div>
+    <h2 class="slide-title">Testnet, waitlist, mainnet.</h2>
+
+    <div class="grid-3">
+      <!-- Testnet -->
+      <div class="stat-block">
+        <div class="col-label blue">Testnet</div>
+        <div class="stat-num">39<span class="unit">Validators</span></div>
+      </div>
+
+      <!-- Waitlist -->
+      <div class="stat-block">
+        <div class="col-label">Waitlist</div>
+        <div class="stack-rows">
+          <div class="row">
+            <span class="k">Professional validators</span>
+            <span class="v">170</span>
+          </div>
+          <div class="row">
+            <span class="k">Indie validators</span>
+            <span class="v">204</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mainnet target -->
+      <div class="stat-block">
+        <div class="col-label purple">Mainnet target</div>
+        <div class="stack-rows">
+          <div class="row">
+            <span class="k">200 Professional × ~4 nodes</span>
+            <span class="v">800</span>
+          </div>
+          <div class="row">
+            <span class="k">200 Indie validators</span>
+            <span class="v">200</span>
+          </div>
+          <div class="row total">
+            <span class="k">Total nodes</span>
+            <span class="v">= 1,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal-list">
+      <div class="goal"><span class="idx">1</span><span><strong style="color: var(--gl-black); font-weight: 600;">Ramp up onboarding quickly</strong> — professionals for now. We do this in batches, no 1-to-1 meetings.</span></div>
+      <div class="goal"><span class="idx">2</span><span>Coordinate <strong style="color: var(--gl-black); font-weight: 600;">TGE + Epoch</strong> internally (Asimov + Bradbury).</span></div>
+      <div class="goal"><span class="idx">3</span><span>Use <strong style="color: var(--gl-black); font-weight: 600;">Clarke</strong> as the real test with the whole of the ecosystem.</span></div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">Validators · 01</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 3 — PROJECTS ============== -->
+<section data-screen-label="03 Projects" class="bg-fog">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">02</span><span class="dot"></span><span>Projects</span></div>
+    <h2 class="slide-title">Projects.</h2>
+
+    <div class="projects-grid">
+      <!-- Left column -->
+      <div class="project-col">
+        <h3 style="color: var(--state-success);">Live</h3>
+        <div class="project-pills">
+          <span class="pill live">Rally</span>
+          <span class="pill live">Intelligent Oracle</span>
+          <span class="pill live">Argue.fun</span>
+          <span class="pill live">Collective Memory</span>
+          <span class="pill live">FUD.Markets</span>
+        </div>
+
+        <h3 style="color: var(--gl-orange-lo); margin-top: 44px;">Working</h3>
+        <div class="project-pills">
+          <span class="pill working">GHBounty</span>
+          <span class="pill working">Uptime</span>
+          <span class="pill working">Apollo</span>
+          <span class="pill working">BuildersClaw</span>
+          <span class="pill working">Proven</span>
+          <span class="pill working">Precog</span>
+          <span class="pill working">Predik</span>
+        </div>
+
+        <div class="pipedrive-card">
+          <div class="label">Pipeline</div>
+          Pipedrive updated — <strong style="color: var(--gl-black);">Pipedrive Agent++</strong>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="project-col">
+        <h3 style="color: var(--gl-blue);">New sourcing</h3>
+        <div class="new-sourcing">
+          <div class="item">
+            <div class="marker"></div>
+            <div class="text">
+                  <strong style="color: var(--gl-black);">Small hackathon</strong> for the first days of June — targeted.
+              <div class="deal-tag">June</div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="marker"></div>
+            <div class="text">
+              <strong style="color: var(--gl-black);">Launched Denarii Labs Accelerator.</strong>
+              <div class="deal-tag" style="background: rgba(22,163,74,0.10); color: var(--state-success);">Launched</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">Projects · 02</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 4 — METRICS ============== -->
+<section data-screen-label="04 Metrics">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">03</span><span class="dot"></span><span>Metrics</span></div>
+    <h2 class="slide-title">Metrics.</h2>
+
+    <div class="metrics-grid">
+      <div class="metric">
+        <div class="num">390</div>
+        <div class="label">Builders</div>
+        <div class="sub">With accepted contributions</div>
+      </div>
+      <div class="metric">
+        <div class="num">319</div>
+        <div class="label">Projects &amp; Milestones submissions</div>
+      </div>
+      <div class="metric">
+        <div class="num">13<span class="k">k+</span></div>
+        <div class="label">GitHub stars</div>
+      </div>
+      <div class="metric">
+        <div class="num">660</div>
+        <div class="label">GitHub forks</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">Metrics · 03</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 5 — INTERNET COURT ============== -->
+<section data-screen-label="05 Internet Court" class="bg-fog">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">04</span><span class="dot"></span><span>Product · Internet Court</span></div>
+    <h2 class="slide-title">Internet Court.</h2>
+
+    <div class="court-layout">
+      <div class="actions-list">
+        <div class="action"><span class="idx">01</span><span>Focus on getting logos / partnerships</span></div>
+        <div class="action"><span class="idx">02</span><span>Push the narrative</span></div>
+        <div class="action"><span class="idx">03</span><span>One-pager</span></div>
+        <div class="action"><span class="idx">04</span><span>New website</span></div>
+      </div>
+
+      <div class="product-card">
+        <div class="glow"></div>
+        <div class="glow2"></div>
+        <div>
+          <div class="badge">Product Focus · 04</div>
+          <div class="product-name">Internet<br/>Court.</div>
+        </div>
+        <div class="product-mark">
+          <img src="assets/GenLayer_Mark_Black.svg" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">Internet Court · 04</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 7 — GENLAYER GYM ============== -->
+<section data-screen-label="07 GenLayer Gym" class="bg-fog">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">05</span><span class="dot"></span><span>Where we measure what GenLayer can do</span></div>
+    <h2 class="slide-title">GenLayer Gym.</h2>
+
+    <div class="gym-layout">
+      <div>
+        <div class="gym-body">
+          We tested GenLayer's Intelligent Oracle against real Polymarket markets to answer one question: <em style="color: var(--gl-black); font-style: normal; font-weight: 600;">how many can it resolve on its own?</em>
+        </div>
+        <div class="gym-body" style="margin-top: 28px;">
+          We also analyzed which sources GenLayer can and can't access — so this number is <em style="color: var(--gl-black); font-style: normal; font-weight: 600;">grounded, not assumed.</em>
+        </div>
+
+        <div class="loom-links">
+          <a href="https://www.loom.com/share/e5c067699420481097c1ba68fcc227d5">Walkthrough — what the Gym measures</a>
+          <a href="https://www.loom.com/share/be94c630ba4244fb8a3aea57c719f92e">Polymarket resolution test</a>
+          <a href="https://www.loom.com/share/148ed16db8334fbf89d5d3a406c580f6">Source-access analysis</a>
+        </div>
+      </div>
+
+      <div class="gym-headline">
+        <div class="bg"></div>
+        <div class="label">Polymarket resolvability</div>
+        <div class="big">97.7<span style="font-size: 140px;">%</span></div>
+        <div class="caption">of real Polymarket markets are resolvable by Intelligent Oracle on its own.</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">GenLayer Gym · 05</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 8 — GENTALKS ============== -->
+<section data-screen-label="08 GenTalks">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">06</span><span class="dot"></span><span>GenTalks</span></div>
+    <h2 class="slide-title">GenTalks.</h2>
+
+    <div class="talks-layout">
+      <div class="actions-list" style="align-self: center;">
+        <div class="action"><span class="idx">01</span><span>Only with guests from outside GenLayer</span></div>
+        <div class="action"><span class="idx">02</span><span>Coordinating with Mkt to break out of the bubble</span></div>
+        <div class="action"><span class="idx">03</span><span>Clippers</span></div>
+      </div>
+
+      <div class="talks-visual">
+        <div class="bg"></div>
+        <div class="label">A conversation series</div>
+        <div>
+          <div class="word">Gen<br/>Talks.</div>
+        </div>
+        <div class="play" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">GenTalks · 06</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 9 — HIRING ============== -->
+<section data-screen-label="09 Hiring" class="bg-fog">
+  <div class="slide-pad">
+    <div class="eyebrow"><span class="num">07</span><span class="dot"></span><span>Hiring</span></div>
+    <h2 class="slide-title">Hiring.</h2>
+
+    <div class="hiring-grid">
+      <div class="role-card">
+        <div class="role-eyebrow">Role · Open</div>
+        <div class="role-title">Testnet Validators<br/>coordination</div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-eyebrow">Role · Open</div>
+        <div class="role-title">Builders<br/>coordination</div>
+      </div>
+
+      <a class="role-card role-card-link" href="https://docs.google.com/document/d/18MGL-z-yangZ8gugwFxPm373jCLr0gZ7_DJhKig7uP8/edit?tab=t.0" target="_blank" rel="noopener">
+        <div class="role-eyebrow">Next</div>
+        <div class="role-title">Detailed roles<br/>descriptions</div>
+        <div class="role-link">View document &nbsp;→</div>
+      </a>
+
+      <div class="referral-card">
+        <div class="bg"></div>
+        <div class="role-eyebrow">Referral fee</div>
+        <div class="role-title">$1k</div>
+        <div class="role-sub">Per successful hire — send candidates our way.</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">Hiring · 07</span>
+  </div>
+</section>
+
+<!-- ============== SLIDE 10 — PORTAL ============== -->
+<section data-screen-label="10 Portal">
+  <div class="slide-pad" style="padding-top: 80px;">
+    <div class="eyebrow"><span class="num">08</span><span class="dot"></span><span>Portal</span></div>
+    <h2 class="slide-title" style="font-size: 80px; margin-top: 18px;">Portal.</h2>
+
+    <div class="timeline-eyebrow" style="margin-top: 18px;">Timeline</div>
+
+    <div class="timeline">
+      <!-- WEEK 1 -->
+      <div class="week shipped">
+        <div class="w-label">Week 1</div>
+        <div class="w-dates">May 3 – 9</div>
+        <div class="w-status shipped">Shipped</div>
+        <div class="w-track"><div class="rail"></div><div class="w-dot"></div></div>
+        <div class="w-items">
+          <div class="w-item">Submissions backlog drop</div>
+          <div class="w-item link">Metrics page</div>
+          <div class="w-item link">Ecosystem Partners</div>
+        </div>
+      </div>
+
+      <!-- WEEK 2 -->
+      <div class="week shipped">
+        <div class="w-label">Week 2</div>
+        <div class="w-dates">May 10 – 16</div>
+        <div class="w-status shipped">Shipped</div>
+        <div class="w-track"><div class="rail"></div><div class="w-dot"></div></div>
+        <div class="w-items">
+          <div class="w-item">GenTV</div>
+          <div class="w-item">GenNews</div>
+          <div class="w-item">Builders Resources</div>
+          <div class="w-item">Special Quest: FUD Markets</div>
+          <div class="w-item" style="background: rgba(17,15,255,0.06); margin-left: -14px; padding-left: 14px; padding-right: 12px; border-left: 3px solid var(--gl-blue);">
+            POAPs
+            <span class="w-tag carryover">↑ from W4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 3 -->
+      <div class="week in-progress">
+        <div class="w-label">Week 3</div>
+        <div class="w-dates">May 17 – 23</div>
+        <div class="w-status in-progress">In progress</div>
+        <div class="w-track"><div class="rail"></div><div class="w-dot"></div></div>
+        <div class="w-item-block">
+          <div class="w-items">
+            <div class="w-item">Request for Startups<span class="w-tag">↓ from W2</span></div>
+            <div class="w-item">Per Project Page<span class="w-tag">↓ from W2</span></div>
+            <div class="w-item">Project metrics push<span class="w-tag">↓ from W2</span></div>
+            <div class="w-item">Discord XP reflected on portal<span class="w-tag new">+ new</span></div>
+          </div>
+        </div>
+        <div class="w-sub">+ 1 TBD from carry-over</div>
+      </div>
+
+      <!-- WEEK 4 -->
+      <div class="week tbd">
+        <div class="w-label">Week 4</div>
+        <div class="w-dates">May 24 – 30</div>
+        <div class="w-status tbd">TBD</div>
+        <div class="w-track"><div class="rail"></div><div class="w-dot"></div></div>
+        <div class="w-items">
+          <div class="w-item">Social tasks</div>
+          <div class="w-item">On-chain tasks</div>
+          <div class="w-item">Hackathon</div>
+          <div class="w-item">GenLayer Points</div>
+          <div class="w-item" style="font-style: normal; font-weight: 600; color: var(--gl-black);">Notifications</div>
+        </div>
+        <div class="w-nest">
+          <div class="n">Verified email</div>
+          <div class="n">Telegram bot</div>
+          <div class="n">Portal platform</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <img src="assets/GenLayer_Mark_Black.svg" alt="" class="mark" />
+    <span class="where">Portal · 08</span>
+  </div>
+</section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>

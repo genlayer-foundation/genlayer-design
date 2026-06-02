@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenLayer · About</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="theme.css">
+<script>(function(){var t=localStorage.getItem('gl-theme')||'dark';document.documentElement.classList.toggle('on-dark',t==='dark');})();</script>
+<style>
+
+  .nav { height: 64px; display: flex; align-items: center; gap: var(--space-6); max-width: 920px; margin: 0 auto; padding: 0 var(--space-6); border-bottom: var(--c-hairline) solid var(--c-border); }
+  .nav img { height: 20px; }
+  .nav .links { display: flex; gap: var(--space-6); margin-left: var(--space-4); }
+  .nav .links a { color: var(--c-fg-muted); font-size: var(--fs-sm); }
+  .nav .links a:hover { color: var(--c-fg); text-decoration: none; }
+  .nav .links a.on { color: var(--c-fg); font-weight: 600; }
+
+  .reader { max-width: 720px; margin: 0 auto; padding: var(--space-20) var(--space-6) var(--space-24); position: relative; z-index: 1; }
+
+  .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-link); margin: 0 0 var(--space-5); }
+  .reader h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 7vw, 88px); letter-spacing: -0.05em; line-height: .98; margin: 0 0 var(--space-6); color: var(--c-fg); }
+  .reader h1 .grad { background: var(--gl-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 500; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-right: .14em; margin-right: -.1em; }
+  .standfirst { font-size: 22px; line-height: 1.5; color: var(--c-fg-muted); margin: 0 0 var(--space-12); text-wrap: pretty; }
+
+  .reader h2 { font-family: var(--font-display); font-weight: 500; font-size: 30px; letter-spacing: -0.03em; margin: var(--space-12) 0 var(--space-4); color: var(--c-fg); }
+  .reader p { font-size: var(--fs-body-lg); line-height: var(--lh-relaxed); color: var(--c-fg); margin: 0 0 var(--space-5); text-wrap: pretty; }
+  .reader p strong { color: var(--c-fg); }
+  .reader hr { border: 0; border-top: var(--c-hairline) solid var(--c-border); margin: var(--space-12) 0; }
+
+  blockquote { margin: var(--space-10) 0; padding: 0 0 0 var(--space-6); border-left: 3px solid var(--gl-blue); }
+  blockquote p { font-family: var(--font-display); font-weight: 500; font-size: 30px; line-height: 1.25; letter-spacing: -0.02em; color: var(--c-fg); margin: 0; }
+
+  .meta { display: flex; gap: var(--space-8); flex-wrap: wrap; margin: var(--space-10) 0; padding: var(--space-6) 0; border-top: var(--c-hairline) solid var(--c-border); border-bottom: var(--c-hairline) solid var(--c-border); }
+  .meta .k { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--c-fg-subtle); display: block; margin-bottom: 4px; }
+  .meta .v { font-size: var(--fs-body); color: var(--c-fg); }
+
+  footer { max-width: 720px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); color: var(--c-fg-subtle); font-size: var(--fs-sm); border-top: var(--c-hairline) solid var(--c-border); position: relative; z-index: 1; }
+  footer a { color: var(--fg-link); }
+</style>
+</head>
+<body>
+<div class="gl-page">
+  <div class="gl-page__bloom gl-page__bloom--1"></div>
+  <div class="gl-page__bloom gl-page__bloom--2"></div>
+
+  <nav class="gl-nav">
+    <div class="gl-nav__inner">
+      <a class="gl-nav__brand" href="components.html"><img src="assets/GenLayer_Logo_Black.svg" alt="GenLayer"></a>
+      <div class="gl-nav__links">
+        <a href="components.html">Components</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="slides.html">Slides</a>
+        <a href="assets.html">Assets</a>
+        <a href="about.html" aria-current="page">About</a>
+      </div>
+      <div class="gl-nav__right">
+        <button class="gl-theme-toggle" data-theme-toggle aria-label="Toggle dark / light theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.38 2.02A10 10 0 1022 12.5 8 8 0 0111.38 2.02z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"></path></svg>
+        </button>
+        <a class="gl-btn gl-btn--primary gl-btn--sm" href="dashboard.html">Open dashboard →</a>
+      </div>
+    </div>
+  </nav>
+
+  <article class="reader">
+    <p class="eyebrow">About GenLayer</p>
+    <h1>A world where trust is <span class="grad">autonomous and universal</span></h1>
+    <p class="standfirst">GenLayer is the adjudication layer for the agentic economy — the missing piece of infrastructure that lets contracts resolve questions requiring judgment, not just code.</p>
+
+    <p>For all their promise, code-only blockchains share a blind spot: they can execute deterministic logic, but they cannot interpret. They cannot weigh context, read intent, or reach a verdict on anything that lives outside a strict if-then. As autonomous agents begin to transact, negotiate, and contract with one another, that gap becomes the bottleneck of the entire agentic economy.</p>
+
+    <p>GenLayer closes it. We are building a decentralized digital jurisdiction where every decision is validated by a diverse network of AI arbiters, reaching consensus the way a panel of judges might — independently, transparently, and on the record.</p>
+
+    <blockquote><p>Intelligent Contracts become self-interpreting, self-executing, and self-enforcing.</p></blockquote>
+
+    <h2>Intelligent Contracts</h2>
+    <p>The core primitive is the <strong>Intelligent Contract</strong>: an agreement written in natural language and code together. It can read a web page, evaluate a claim, or judge whether a condition has truly been met — then act on that judgment without a middleman. The contract understands what it is being asked, validates the outcome by consensus, and records a result that is final and challengeable in the open.</p>
+
+    <h2>Optimistic Democracy</h2>
+    <p>Verdicts are reached through <strong>Optimistic Democracy</strong>. A contract poses a question; AI validators reason about it independently; a majority verdict emerges and finalizes on-chain after an optimistic window during which anyone can challenge it. The result is a consensus mechanism that scales human-like judgment without surrendering the guarantees that make a blockchain worth trusting.</p>
+
+    <div class="meta">
+      <div><span class="k">Network</span><span class="v">GenLayer</span></div>
+      <div><span class="k">Current testnet</span><span class="v">Bradbury</span></div>
+      <div><span class="k">Prior testnet</span><span class="v">Asimov</span></div>
+      <div><span class="k">Governance</span><span class="v">Deepthought DAO</span></div>
+    </div>
+
+    <h2>The testnets</h2>
+    <p>Our networks are named after the authors who imagined this future first. <strong>Asimov</strong> stood up the infrastructure. <strong>Bradbury</strong> marks the transition from setup to active, AI-driven validation and experimentation — the first testnet where AI directly participates in consensus.</p>
+
+    <h2>For builders</h2>
+    <p>Most hackathons give you a one-time prize. GenLayer gives you a revenue stream. Through the Incentivized Builder Program, contributions to the network earn recognition and rewards that compound over time. <strong>Build once, earn forever.</strong></p>
+
+    <hr>
+
+    <p>We are factual and intelligent, futuristic and bold, and built around the people who build with us. If that sounds like the kind of infrastructure you want to help shape, there is a place for you in the jurisdiction.</p>
+  </article>
+
+  <footer>
+    GenLayer Design System · This page demonstrates the light reading surface. See <a href="DESIGN.md">DESIGN.md</a> · <a href="components.html">Components</a> · <a href="dashboard.html">Dashboard</a> · <a href="slides.html">Slides</a>
+  </footer>
+</div>
+<script src="theme.js"></script>
+</body>
+</html>
