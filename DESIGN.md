@@ -100,6 +100,12 @@ the same chrome from `theme.css`, and a dark/light toggle. Open any one to brows
 `guidelines/brand_voice.md` (condensed copy + casing rules) ·
 `guidelines/brand_guidelines_text.md` (full 48pp brand guidelines extract).
 
+### Video & motion
+Videos and motion graphics follow their own rules in `guidelines/video/` (start at its
+`README.md`): flat 2D illustration vocabulary, F37 Lineca + Suisse Intl Mono, no fades,
+and two motion languages (explainer films vs launch videos). They override §3–§7 inside a
+video only. Claude Code skill: `.claude/skills/genlayer-video/SKILL.md`.
+
 ---
 
 ## 2. Quick start
@@ -252,6 +258,7 @@ See `guidelines/brand_voice.md` for the full rules and example lines.
 - Dashboard grid: `gap-8` columns, `space-y-8` stacked sections. Mobile padding `px-4`.
 - **Motion:** gradients flow gently (1.5–3s ease-in-out). Hover deepens color one step,
   `transition: .15s`. **No scale, no bounce, no spring.** Page enters: fade + 10px translate.
+  *(Interfaces only — video and motion graphics follow `guidelines/video/`.)*
 - **No glassmorphism** as a system pattern. Surfaces are opaque. Blur is reserved for hex-blur
   PNGs behind badges and navy/black overlays (`rgba(0,0,0,.4–.6)`) over hero imagery.
 

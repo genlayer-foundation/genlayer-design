@@ -10,29 +10,38 @@ mocks, and slides — the adjudication layer for the agentic economy.
 Pick whichever fits how you work. **The skill is the simplest path for any Claude-Code-
 assisted project** — install it once and it applies everywhere.
 
-### Option A — Install the Claude Code skill (recommended)
+### Option A — Install the Claude Code skills (recommended)
 
-The repo ships a [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills)
-at [`.claude/skills/genlayer-design.md`](./.claude/skills/genlayer-design.md). Install it
-once at the user level — it auto-applies whenever you ask Claude to design, build, or
-review UI in **any project** on your machine. No per-project `CLAUDE.md` edit, no copy-
-paste, no maintenance.
+The repo ships two [Claude Code skills](https://docs.claude.com/en/docs/claude-code/skills):
+
+| Skill | Covers |
+| --- | --- |
+| [`genlayer-design`](./.claude/skills/genlayer-design.md) | Interfaces — pages, dashboards, decks, mockups |
+| [`genlayer-video`](./.claude/skills/genlayer-video/SKILL.md) | Video & motion — explainer films, launch videos, animated text |
+
+Install them once at the user level — they auto-apply whenever you ask Claude to design,
+build, animate, or review in **any project** on your machine. No per-project `CLAUDE.md`
+edit, no copy-paste, no maintenance.
 
 ```bash
 # one-time install — run on any machine where you use Claude Code
-mkdir -p ~/.claude/skills
-curl -fsSL https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/.claude/skills/genlayer-design.md \
-  -o ~/.claude/skills/genlayer-design.md
+RAW=https://raw.githubusercontent.com/genlayer-foundation/genlayer-design/main/.claude/skills
+curl -fsSL --create-dirs "$RAW/genlayer-design.md"     -o ~/.claude/skills/genlayer-design/SKILL.md
+curl -fsSL --create-dirs "$RAW/genlayer-video/SKILL.md" -o ~/.claude/skills/genlayer-video/SKILL.md
 ```
+
+> Skills must live at `~/.claude/skills/<name>/SKILL.md`. A flat
+> `~/.claude/skills/genlayer-design.md` installs silently but never registers — if you
+> installed with an older version of this README, delete that file and re-run the above.
 
 That's it. From now on, just describe the work — *"design a hackathon landing page
 following the GenLayer design system"*, *"build a leaderboard table for the Portal"*,
-*"review this React component for brand fit"* — and Claude will pick up the
-`genlayer-design` skill, fetch `DESIGN.md`, and apply tokens, `gl-*` components, theming,
-brand voice, and asset rules automatically.
+*"storyboard a 40-second explainer on appeals"*, *"review this GSAP timeline for brand
+fit"* — and Claude will pick up the right skill, fetch `DESIGN.md` or the
+[video guidelines](./guidelines/video/), and apply them.
 
-To update later, re-run the same `curl` command. To uninstall, delete
-`~/.claude/skills/genlayer-design.md`.
+To update later, re-run the same commands. To uninstall, delete
+`~/.claude/skills/genlayer-design/` and `~/.claude/skills/genlayer-video/`.
 
 ### Option B — Paste a snippet into the project's CLAUDE.md / AGENTS.md
 
@@ -96,7 +105,8 @@ and a theme toggle, so you can browse and theme the whole system from any one. `
 
 ```
 DESIGN.md                        ← single source of truth
-.claude/skills/genlayer-design.md ← Claude Code skill (Option A above)
+.claude/skills/genlayer-design.md ← Claude Code skill: interfaces (Option A above)
+.claude/skills/genlayer-video/   ← Claude Code skill: video & motion (Option A above)
 colors_and_type.css              ← all tokens + @font-face + base styles
 components.css                   ← reusable, theme-aware gl-* component classes
 theme.css                        ← shared chrome (nav/hero/sections) + dark/light tokens
@@ -114,6 +124,8 @@ ui_kits/portal/Dashboard.html    ← full Portal app shell to fork
 ui_kits/marketing/HackathonPage.html  ← full dark marketing page to fork
 guidelines/brand_voice.md        ← condensed copy & casing rules
 guidelines/brand_guidelines_text.md   ← full brand guidelines extract
+guidelines/video/                ← video & motion: illustration, explainer films,
+                                   launch motion, animated text (start at its README)
 LICENSE-FONTS.md                 ← font licensing (Space Grotesk public, F37 Lineca internal)
 ```
 

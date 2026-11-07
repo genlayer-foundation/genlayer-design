@@ -101,6 +101,12 @@ These come from `DESIGN.md` §3–§9. Read them as hard constraints when genera
   permitted-users list: see `LICENSE-FONTS.md` in the repo. **Never** commit
   `F37Lineca-VF.ttf` to a public repo.
 
+## Video & motion are a separate skill
+
+For explainer films, launch videos, motion graphics or animated text, use the
+**`genlayer-video`** skill and `guidelines/video/` — they override the interface rules
+here (type, black, red, gradients, entrances) inside a video.
+
 ## When the user asks you to design or build UI
 
 1. Fetch `DESIGN.md` (and `LICENSE-FONTS.md` if fonts come up).
